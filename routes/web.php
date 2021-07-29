@@ -23,8 +23,14 @@ Route::get('/profile', [ResourceController::class, 'create'])
     ->middleware('auth')
     ->name('create_profile');
 
-Route::post('/profile', [ResourceController::class, 'checkout'])
-    ->name('update_profile');
+
+Route::post('/profile', [ResourceController::class, 'store'])
+    ->middleware('auth')
+    ->name('store_profile');
+
+
+// Route::post('/profile', [ResourceController::class, 'checkout'])
+//     ->name('update_profile');
 
 
 Route::get('/profile/show/{resource}', [ResourceController::class, 'show'])

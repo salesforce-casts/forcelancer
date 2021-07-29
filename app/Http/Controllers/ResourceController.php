@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use App\Models\Resource;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
+use Illuminate\Support\Facades\Auth;
 
 class ResourceController extends Controller
 {
@@ -27,7 +29,15 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        //
+        $user = [
+            'usr' => Auth::user()->name,
+            'email' => Auth::user()->email
+        ];
+
+
+        $countries = Country::pluck('name', 'id')->all();
+
+        return view('resources.new', compact('user', 'countries'));
     }
 
     /**
@@ -38,7 +48,18 @@ class ResourceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|unique:resources|email:rfc,dns',
+            'describe' => 'required|min:3|max:1000',
+            'country' => 'required',
+            'hourly_rate' => 'required|numeric|min:1|max:500',
+            'weekly_rate' => 'required|numeric|min:1|max:500',
+            'monthly_rate' => 'required|numeric|min:1|max:500'
+        ]);
+        $resource = Resource::create($validated);
+        return redirect()->back()->withInput($resource)->withErrors($validated);
     }
 
     /**

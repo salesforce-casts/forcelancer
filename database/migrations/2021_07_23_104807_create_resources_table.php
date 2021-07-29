@@ -20,7 +20,7 @@ class CreateResourcesTable extends Migration
             $table->string('email')->unique();
             $table->text('describe');
             $table->string('country');
-            $table->string('timezone');
+            $table->string('timezone')->nullable();
             $table->integer('total_hours_invoiced')->unsigned()->default(0);
             $table->integer('total_earnings')->unsigned()->default(0);
             $table->string('skills');
