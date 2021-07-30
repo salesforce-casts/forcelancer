@@ -6,7 +6,7 @@
     <option>--None--</option>
 
     @foreach ($value as $key => $item)
-        <option value="{{ $key }}" @if($selected == $key) selected @endif>
+        <option value="{{ $key }}" {{ ($selected == $key) ? 'selected' : '' }}>
             {{ $item }}
         </option>
     @endforeach
