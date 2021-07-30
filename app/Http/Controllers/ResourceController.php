@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Resource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
@@ -48,18 +49,38 @@ class ResourceController extends Controller
      */
     public function store(Request $request)
     {
-
         $validated = $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|unique:resources|email:rfc,dns',
             'describe' => 'required|min:3|max:1000',
             'country' => 'required',
+            'skills' => 'required',
             'hourly_rate' => 'required|numeric|min:1|max:500',
             'weekly_rate' => 'required|numeric|min:1|max:500',
-            'monthly_rate' => 'required|numeric|min:1|max:500'
+            'monthly_rate' => 'required|numeric|min:1|max:500',
         ]);
-        $resource = Resource::create($validated);
-        return redirect()->back()->withInput($resource)->withErrors($validated);
+
+        $user = User::find(1);
+
+        // TODO: Refactor this
+        $resource = new Resource;
+
+        $resource->name = $request->input('name');
+        $resource->email = $request->input('email');
+        $resource->describe = $request->input('describe');
+        $resource->country = $request->input('country');
+        $resource->skills = $request->input('skills');
+        $resource->hourly_rate = $request->input('hourly_rate');
+        $resource->weekly_rate = $request->input('weekly_rate');
+        $resource->monthly_rate = $request->input('monthly_rate');
+
+        $saved = $user->createdBy()->save($resource);
+
+        if ($saved) {
+            return view('dashboard');
+        }
+
+        return redirect()->back()->withErrors($validated);
     }
 
     /**

@@ -28,13 +28,13 @@
     <div>
         <x-label for="name" :value="__('Name')" />
 
-        <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="$user['usr'] ?? old('name')" required autofocus />
+        <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name') ?? $user['usr']" required autofocus />
     </div>
     <!-- Email Address -->
     <div class="mt-4">
         <x-label for="email" :value="__('Email')" />
 
-        <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="$user['email'] ?? old('email')" required autofocus />
+        <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email') ?? $user['email']" required autofocus />
     </div>
     <!-- Email Address -->
     <div class="mt-4">
@@ -42,31 +42,36 @@
 
         <x-text-area id="describe" class="block mt-1 w-full" type="text"  name="describe" :value="old('describe')" required autofocus />
     </div>
-
+    {{ old('country') }}
     <!-- Email Address -->
     <div class="mt-4">
         <x-label for="Country" :value="__('Location')" />
 
-        <x-picklist id="country" class="block mt-1 w-full" name="country" :value="$countries ?? old('country')" required autofocus />
+        <x-picklist id="country" class="block mt-1 w-full" name="country" :selected="old('country') ?? '' " :value="$countries" required autofocus />
+    </div>
+    <div class="mt-4">
+        <x-label for="Skills" :value="__('Skills')" />
+
+        <x-input id="skills" class="block mt-1 w-full" type="text" name="skills" :value="old('skills')" required autofocus />
     </div>
 
     <!-- Email Address -->
     <div class="mt-4">
         <x-label for="Hourly Rate" :value="__('Hourly Rate')" />
 
-        <x-input id="hourly_rate" class="block mt-1 w-full" type="number" name="hourly_rate" :value="0 ?? old('hourly_rate')"  autofocus />
+        <x-input id="hourly_rate" class="block mt-1 w-full" type="number" name="hourly_rate" :value="old('hourly_rate') ?? 0"  autofocus />
     </div>
     <!-- Email Address -->
     <div class="mt-4">
         <x-label for="Weekly Rate" :value="__('Weekly Rate')" />
 
-        <x-input id="weekly_rate" class="block mt-1 w-full" type="number" name="weekly_rate" :value="0 ?? old('weekly_rate')"  autofocus />
+        <x-input id="weekly_rate" class="block mt-1 w-full" type="number" name="weekly_rate" :value="old('weekly_rate') ?? 0"  autofocus />
     </div>
     <!-- Email Address -->
     <div class="mt-4">
         <x-label for="Monthly Rate" :value="__('Monthly Rate')" />
 
-        <x-input id="monthly_rate" class="block mt-1 w-full" type="number" name="monthly_rate" :value="0 ?? old('monthly_rate')"  autofocus />
+        <x-input id="monthly_rate" class="block mt-1 w-full" type="number" name="monthly_rate" :value="old('monthly_rate') ?? 0"  autofocus />
     </div>
 
     <x-button class="mt-4">
