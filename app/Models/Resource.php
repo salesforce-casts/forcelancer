@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
 class Resource extends Model
 {
@@ -15,5 +14,10 @@ class Resource extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function portfolio()
+    {
+        return $this->hasMany(Portfolio::class);
     }
 }

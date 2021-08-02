@@ -14,11 +14,18 @@
 
                     <form method="POST" action="{{ route('create_profile') }}">
 
+                        <div class="mt-4">
                         <a href="{{ route('create_profile') }}" class="text-sm text-gray-700 underline">
 
                             {{ __('Register Your Profile') }}
                         </a>
+                        </div>
+                        <div class="mt-4">
+                        <a href="{{ route('portfolio_list') }}" class="text-sm text-gray-700 underline">
 
+                            {{ __('Prepare your portfolio') }}
+                        </a>
+                    </div>
 
                     </form>
 

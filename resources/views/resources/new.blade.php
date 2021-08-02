@@ -42,7 +42,6 @@
 
         <x-text-area id="describe" class="block mt-1 w-full" type="text"  name="describe" :value="old('describe')" required autofocus />
     </div>
-    {{ old('country') }}
     <!-- Email Address -->
     <div class="mt-4">
         <x-label for="Country" :value="__('Location')" />

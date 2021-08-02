@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ResourceController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PortfolioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +28,12 @@ Route::post('/profile', [ResourceController::class, 'store'])
     ->middleware('auth')
     ->name('store_profile');
 
+Route::get('/portfolio', [PortfolioController::class, 'index'])
+    ->middleware('auth')
+    ->name('portfolio_list');
+Route::post('/portfolio', [PortfolioController::class, 'store'])
+    ->middleware('auth')
+    ->name('portfolio_store');
 
 // Route::post('/profile', [ResourceController::class, 'checkout'])
 //     ->name('update_profile');
