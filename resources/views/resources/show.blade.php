@@ -434,7 +434,7 @@
         } */
 
         button:hover {
-            filter: contrast(115%);
+            /* filter: contrast(115%); */
         }
 
         button:disabled {
