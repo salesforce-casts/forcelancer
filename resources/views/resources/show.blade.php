@@ -41,7 +41,9 @@
                         {{ $resource->name }}
 
                         <div class="cs-hire-me">
-                            <x-button class="ml-3">Available?</x-button>
+                            <form @submit.prevent="checkAvailability">
+                                <x-button on class="ml-3">Available?</x-button>
+                            </form>
                         </div>
                         <div class="cs-hire-me">
                             <x-button @click="show" class="ml-3">Hire</x-button>
@@ -355,6 +357,24 @@
                 hide(event){
                     document.querySelector('.cs-hide').classList.add('invisible');
                     document.querySelector('.cs-rollover').classList.remove('transform', 'transition', 'ease-in', 'duration-500', 'sm:duration-700');
+                },
+                checkAvailability(event){
+                    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                    fetch("{{ route('check.availability') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "X-CSRF-Token": token
+                        },
+                        body: JSON.stringify('{{$resource->id}}')
+                    })
+                    .then(function(result) {
+                        console.log(result);
+                    })
+                    .catch( (error) => {
+                        console.log(error);
+                    })
                 },
                 handleChargesDisplay(event){
                     let value = parseInt(event.target.value);
