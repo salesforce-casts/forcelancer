@@ -14,7 +14,6 @@
 
 
     <script src="https://unpkg.com/vue@next"></script>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Styles -->
 
@@ -41,5 +40,6 @@
     </div>
 
 </body>
+
 
 </html>

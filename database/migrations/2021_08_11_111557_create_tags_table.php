@@ -20,8 +20,8 @@ class CreateTagsTable extends Migration
             $table->integer('created_by')->unsigned();
             $table->timestamps();
 
-            $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('resource_id')->references('id')->on('resources');
+            $table->foreign('created_by')->references('id')->on('users');
         });
     }
 

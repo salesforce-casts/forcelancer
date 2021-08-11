@@ -8,6 +8,13 @@
                 <x-input id="search" class="block mt-1 w-full" type="text" name="search" v-model="search" required
                     autofocus />
             </div>
+
+            <div>
+                <div class="inline-flex items-center px-2.5 py-0.5 mr-1 mt-2 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border hover:border-blue-800 cs-pills"
+                    v-for="(tag,index) in tags" :key="tag.id" @click="handleTagsCollection">
+                    @{{ tag.name }}
+                </div>
+            </div>
             <!--
   This example requires Tailwind CSS v2.0+
 
@@ -83,7 +90,9 @@
             </div>
             <div class="mt-4">
                 <x-label for="range" :value="__('Price Range')" />
-                <x-input id="range" class="block mt-1" type="number" name="range" required autofocus />
+                <x-input id="range"
+                    class="block mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    type="range" name="range" min="1" max="100" step="1" value="15" required autofocus />
             </div>
             <x-button class="mt-4">
                 {{ __('Search') }}
@@ -115,6 +124,8 @@
         return {
             search : '',
             resources : [],
+            tags : [],
+            selectedTags : []
         }
     },
     created(){
@@ -122,12 +133,19 @@
     },
     methods: {
         handleInit(){
-            fetch(" {{ route('search') }} ")
+
+            Promise.all([
+                fetch(" {{ route('search') }} "),
+                fetch(" {{ route('tags') }} ")
+            ])
             .then((res) => {
-                return res.json();
+                return Promise.all(res.map(function (response) {
+                    return response.json();
+                }));
             })
             .then((res) => {
-                this.resources = res;
+                this.resources = res[0];
+                this.tags = res[1];
                 console.log(res);
             })
             .catch( (error) => {
@@ -136,7 +154,9 @@
         },
         handleSearch() {
 
-            let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            if(this.selectedTags){
+
+            }
 
             fetch("{{ route('search') }}?" + new URLSearchParams({
                 query: this.search
@@ -155,6 +175,17 @@
         handleClear(){
             this.search = '';
             this.handleInit();
+        },
+        handleTagsCollection(event) {
+            event.target.classList.toggle('border-blue-800');
+            let clickedOn = event.target.innerHTML;
+            let index = this.selectedTags.indexOf(clickedOn);
+
+            if (index === -1) {
+                this.selectedTags.push(clickedOn);
+            } else {
+                this.selectedTags.splice(index, 1);
+            }
         }
     }
 });
