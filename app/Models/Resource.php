@@ -18,7 +18,13 @@ class Resource extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function portfolio()
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    public function portfolios()
     {
         return $this->hasMany(Portfolio::class);
     }
