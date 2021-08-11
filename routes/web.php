@@ -76,6 +76,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::post('/search', SearchController::class);
+Route::get('/search', SearchController::class)->name('search');
 
 require __DIR__ . '/auth.php';

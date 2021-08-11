@@ -15,15 +15,17 @@ class SearchController extends Controller
      */
     public function __invoke(Request $request)
     {
-        // $searchText = $request->get('body');
-        // $u = [
-        //     'key' => 'value',
-        //     'key1' => 'value1',
-        // ];
-        // $resources = Resource::where('title', 'LIKE', '%' . $searchText . '%')
-        //     ->orWhere('describe', 'LIKE', '%' . $searchText . '%')
-        //     ->get();
-        $res = Resource::find(11);
-        return $res;
+        $query = $request->input('query');
+
+        if ($query == null) {
+            $resources = Resource::limit(25)->orderBy("created_at", "desc")->get();
+        } else {
+            $resources = Resource::where('title', 'LIKE', '%' . $query . '%')
+                ->orWhere('describe', 'LIKE', '%' . $query . '%')
+                ->get();
+            // $resources = $query;
+        }
+
+        return $resources;
     }
 }
