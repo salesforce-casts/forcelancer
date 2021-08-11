@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\SearchController;
 use App\Mail\AvailableForHireNotification;
 use App\Mail\ConfirmAvailabilityNotification;
 use Illuminate\Support\Facades\Mail;
@@ -74,5 +75,7 @@ Route::get('/profile/show/{resource}', [ResourceController::class, 'show'])
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::post('/search', SearchController::class);
 
 require __DIR__ . '/auth.php';
