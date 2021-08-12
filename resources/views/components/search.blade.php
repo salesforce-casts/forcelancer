@@ -1,12 +1,11 @@
 <div class="cs-search">
-    <div>
+    <div class="w-52">
         <form @submit.prevent="handleSearch">
 
             <div>
                 <x-label for="Search" :value="__('Search')" />
 
-                <x-input id="search" class="block mt-1 w-full" type="text" name="search" v-model="search" required
-                    autofocus />
+                <x-input id="search" class="block mt-1" type="text" name="search" v-model="search" required autofocus />
             </div>
 
             <div>
@@ -98,7 +97,8 @@
             <div class="mt-4">
                 <x-label for="Country" :value="__('Location')" />
                 <select
-                    class="block mt-1 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    class="block mt-1 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    @change="handleSelectedCountry">
                     <option v-for="(country, index) in countries" :value=index>
                         @{{country}}
                     </option>
@@ -144,7 +144,8 @@
             resources : [],
             tags : [],
             selectedTags : [],
-            countries : []
+            countries : [],
+            selectedCountry : 1
         }
     },
     created(){
@@ -175,12 +176,10 @@
         },
         handleSearch() {
 
-            if(this.selectedTags){
-
-            }
-
             fetch("{{ route('search') }}?" + new URLSearchParams({
-                query: this.search
+                query: this.search,
+                country : this.selectedCountry,
+                tags : this.selectedTags
             }))
             .then((res) => {
                 return res.json();
@@ -207,6 +206,12 @@
             } else {
                 this.selectedTags.splice(index, 1);
             }
+        },
+
+        handleSelectedCountry(){
+            this.selectedCountry = event.target.value;
+            console.log(this.selectedCountry);
+
         }
     }
 });
