@@ -94,10 +94,28 @@
                     class="block mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     type="range" name="range" min="1" max="100" step="1" value="15" required autofocus />
             </div>
-            <x-button class="mt-4">
-                {{ __('Search') }}
-            </x-button>
-            <a class="ml-3" @click="handleClear">clear</a>
+
+            <div class="mt-4">
+                <x-label for="Country" :value="__('Location')" />
+                <select
+                    class="block mt-1 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <option v-for="(country, index) in countries" :value=index>
+                        @{{country}}
+                    </option>
+                </select>
+            </div>
+            <div class="mt-2">
+
+                <x-button>
+                    {{ __('Search') }}
+                </x-button>
+            </div>
+
+
+            <div class="mt-4">
+
+                <a @click="handleClear">clear</a>
+            </div>
 
         </form>
     </div>
@@ -125,7 +143,8 @@
             search : '',
             resources : [],
             tags : [],
-            selectedTags : []
+            selectedTags : [],
+            countries : []
         }
     },
     created(){
@@ -136,7 +155,8 @@
 
             Promise.all([
                 fetch(" {{ route('search') }} "),
-                fetch(" {{ route('tags') }} ")
+                fetch(" {{ route('tags') }} "),
+                fetch(" {{ route('countries') }} ")
             ])
             .then((res) => {
                 return Promise.all(res.map(function (response) {
@@ -146,6 +166,7 @@
             .then((res) => {
                 this.resources = res[0];
                 this.tags = res[1];
+                this.countries = res[2];
                 console.log(res);
             })
             .catch( (error) => {

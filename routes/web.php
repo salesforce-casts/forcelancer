@@ -6,6 +6,7 @@ use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\CountryController;
 use App\Mail\AvailableForHireNotification;
 use App\Mail\ConfirmAvailabilityNotification;
 use Illuminate\Support\Facades\Mail;
@@ -79,4 +80,5 @@ Route::get('/dashboard', function () {
 
 Route::get('/search', SearchController::class)->name('search');
 Route::get('/tags', TagController::class)->name('tags');
+Route::get('/countries', CountryController::class)->name('countries');
 require __DIR__ . '/auth.php';
