@@ -41,10 +41,10 @@
                         <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
                         <label
                             class="rounded-tl-md rounded-tr-md relative  p-.5 flex cursor-pointer focus:outline-none">
-                            <input type="radio" name="privacy-setting" value="Public access"
+                            <input type="radio" name="privacy-setting" value="Hourly"
                                 class="h-4 w-4 mt-0.5 cursor-pointer text-indigo-600 border-gray-300 focus:ring-indigo-500"
                                 aria-labelledby="privacy-setting-0-label"
-                                aria-describedby="privacy-setting-0-description">
+                                aria-describedby="privacy-setting-0-description" @click="handleType">
                             <div class="ml-3 flex flex-col">
                                 <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
                                 <span id="privacy-setting-0-label" class="block text-sm font-medium">
@@ -56,10 +56,10 @@
 
                         <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
                         <label class="relative  p-.5 flex cursor-pointer focus:outline-none">
-                            <input type="radio" name="privacy-setting" value="Private to Project Members"
+                            <input type="radio" name="privacy-setting" value="Weekly"
                                 class="h-4 w-4 mt-0.5 cursor-pointer text-indigo-600 border-gray-300 focus:ring-indigo-500"
                                 aria-labelledby="privacy-setting-1-label"
-                                aria-describedby="privacy-setting-1-description">
+                                aria-describedby="privacy-setting-1-description" @click="handleType">
                             <div class="ml-3 flex flex-col">
                                 <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
                                 <span id="privacy-setting-1-label" class="block text-sm font-medium">
@@ -72,10 +72,10 @@
                         <!-- Checked: "bg-indigo-50 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
                         <label
                             class="rounded-bl-md rounded-br-md relative  p-.5 flex cursor-pointer focus:outline-none">
-                            <input type="radio" name="privacy-setting" value="Private to you"
+                            <input type="radio" name="privacy-setting" value="Monthly"
                                 class="h-4 w-4 mt-0.5 cursor-pointer text-indigo-600 border-gray-300 focus:ring-indigo-500"
                                 aria-labelledby="privacy-setting-2-label"
-                                aria-describedby="privacy-setting-2-description" checked>
+                                aria-describedby="privacy-setting-2-description" checked @click="handleType">
                             <div class="ml-3 flex flex-col">
                                 <!-- Checked: "text-indigo-900", Not Checked: "text-gray-900" -->
                                 <span id="privacy-setting-2-label" class="block text-sm font-medium">
@@ -91,7 +91,9 @@
                 <x-label for="range" :value="__('Price Range')" />
                 <x-input id="range"
                     class="block mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    type="range" name="range" min="1" max="100" step="1" value="15" required autofocus />
+                    type="range" name="range" min="1" max="100" step="1" value="15" required autofocus
+                    @input="handleRange" />
+                <div class="cs-range"></div>
             </div>
 
             <div class="mt-4">
@@ -179,7 +181,9 @@
             fetch("{{ route('search') }}?" + new URLSearchParams({
                 query: this.search,
                 country : this.selectedCountry,
-                tags : this.selectedTags
+                tags : this.selectedTags,
+                type : this.type,
+                range : this.range
             }))
             .then((res) => {
                 return res.json();
@@ -211,7 +215,15 @@
         handleSelectedCountry(){
             this.selectedCountry = event.target.value;
             console.log(this.selectedCountry);
-
+        },
+        handleRange(){
+            this.range = event.target.value;
+            document.querySelector('.cs-range').innerHTML=this.range;
+            console.log(this.range);
+        },
+        handleType(){
+            this.type = event.target.value;
+            console.log(this.type);
         }
     }
 });

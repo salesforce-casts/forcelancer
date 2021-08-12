@@ -18,30 +18,28 @@ class SearchController extends Controller
         $query = $request->input('query');
         $country = $request->input('country');
         $tags = $request->input('tags');
+        $type = $request->input('type');
+        $range = $request->input('range');
 
         if ($query == null && $country == null && $tags == null) {
             $resources = Resource::limit(25)->orderBy("created_at", "desc")->get();
         } else {
-            $resources = '';
-            $resources_from_tags = '';
+            $resources_from_tags = null;
+            $query = Resource::query();
+            $query->select('id', 'name', 'describe', 'country');
 
-            if ($query != null && $country != null) {
-                $resources = Resource::select('id', 'name', 'describe', 'country')
-                    ->where('describe', 'LIKE', '%' . $query . '%')
-                    // ->orwhere('title', 'LIKE', '%' . $query . '%')
-                    ->orWhere('country', '=', $country)
-                    ->get();
+            if ($query != null) {
+                $query->orWhere('describe', 'LIKE', '%' . $query . '%');
             }
-            if ($query != null && $country == null) {
-                $resources = Resource::select('id', 'name', 'describe', 'country')
-                    ->where('name', 'LIKE', '%' . $query . '%')
-                    ->get();
+            if ($country != null) {
+                $query->orWhere('country', '=', $country);
             }
-            if ($query == null && $country != null) {
-                $resources = Resource::select('id', 'name', 'describe', 'country')
-                    ->where('country', '=', $country)
-                    ->get();
+            if ($type != null && $range != null) {
+                $query->orWhere($type, '<', $range);
             }
+
+            $resources = $query->get();
+
             if ($tags != null) {
                 $resources_from_tags = Resource::leftJoin('tags', 'tags.resource_id', '=', 'resources.id')
                     ->select('resources.id', 'resources.name', 'resources.describe', 'resources.country')
@@ -50,11 +48,12 @@ class SearchController extends Controller
                     ->get();
             }
 
-            if ($query != null && $tags != null) {
+            if ($resources_from_tags != null) {
                 $concatenated_resources = $resources->concat($resources_from_tags);
                 $unique_resources = $concatenated_resources->unique();
+                return $unique_resources;
             }
-            return $unique_resources;
+            return $resources;
         }
 
         return $resources;
