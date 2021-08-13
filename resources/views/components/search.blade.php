@@ -5,7 +5,7 @@
             <div>
                 <x-label for="Search" :value="__('Search')" />
 
-                <x-input id="search" class="block mt-1" type="text" name="search" v-model="search" required autofocus />
+                <x-input id="search" class="block mt-1" type="text" name="search" v-model="search" autofocus />
             </div>
 
             <div>
@@ -147,7 +147,10 @@
             tags : [],
             selectedTags : [],
             countries : [],
-            selectedCountry : 1
+            selectedCountry : 1,
+            range: 0,
+            type: 'Monthly'
+
         }
     },
     created(){
@@ -179,7 +182,7 @@
         handleSearch() {
 
             fetch("{{ route('search') }}?" + new URLSearchParams({
-                query: this.search,
+                search: this.search,
                 country : this.selectedCountry,
                 tags : this.selectedTags,
                 type : this.type,
