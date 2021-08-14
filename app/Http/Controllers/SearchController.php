@@ -18,10 +18,10 @@ class SearchController extends Controller
     {
         $searchText = $request->input('search');
 
-        $searchText = preg_replace('/[^A-Za-z0-9\-]/', '', $searchText);
+        $searchText = preg_replace('/[^A-Za-z0-9\-]/', ' ', $searchText);
 
-        if (strpos($searchText, '+')) {
-            $searchText = explode("+", $searchText);
+        if (strpos($searchText, ' ')) {
+            $searchText = explode(" ", $searchText);
         }
 
         $country = $request->input('country');
@@ -47,10 +47,15 @@ class SearchController extends Controller
             $query->select('id', 'name', 'describe', 'country');
 
             if ($searchText != null) {
-                $searchText = is_array($searchText) ? $searchText : array($searchText);
-                $query->orWhereIn('describe', 'LIKE', '%' . $searchText . '%');
-                // return $searchText;
 
+                $searchText = is_array($searchText) ? $searchText : array($searchText);
+                $searchTextList = array();
+
+                foreach ($searchText as $st) {
+                    array_push($searchTextList, '%' . $st . '%');
+                }
+                // return $searchTextList;
+                $query->orWhereIn('describe', 'like', ["%sales%", "%cloud%", "%service%"]);
             }
             if ($country != null) {
                 $query->orWhere('country', '=', $country);
