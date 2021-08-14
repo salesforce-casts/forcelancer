@@ -18,6 +18,8 @@ class SearchController extends Controller
     {
         $searchText = $request->input('search');
 
+        $searchText = preg_replace('/[^A-Za-z0-9\-]/', '', $searchText);
+
         if (strpos($searchText, '+')) {
             $searchText = explode("+", $searchText);
         }
@@ -45,11 +47,10 @@ class SearchController extends Controller
             $query->select('id', 'name', 'describe', 'country');
 
             if ($searchText != null) {
-                if (is_array($searchText)) {
-                    $query->orWhereIn('describe', 'LIKE', '%' . $searchText . '%');
-                } else {
-                    $query->orWhere('describe', 'LIKE', '%' . $searchText . '%');
-                }
+                $searchText = is_array($searchText) ? $searchText : array($searchText);
+                $query->orWhereIn('describe', 'LIKE', '%' . $searchText . '%');
+                // return $searchText;
+
             }
             if ($country != null) {
                 $query->orWhere('country', '=', $country);
@@ -62,15 +63,15 @@ class SearchController extends Controller
 
             if ($tags != null) {
 
-                $tagIds = Tag::select('id')->whereIn('name', $tags);
+                $tags = is_array($tags) ? $tags : array($tags);
+
+                $tagsList = Tag::select('id')->whereIn('name', $tags)->get();
 
                 $resources_from_tags = Resource::leftJoin('tags', 'tags.resource_id', '=', 'resources.id')
                     ->select('resources.id', 'resources.name', 'resources.describe', 'resources.country')
-                    ->whereIn('tags.id', $tagIds)
+                    ->whereIn('tags.id', $tagsList)
                     ->distinct()
                     ->get();
-
-                // return $resources_from_tags;
             }
 
             if ($resources_from_tags != null) {
