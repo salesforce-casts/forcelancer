@@ -52,4 +52,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tag::class, 'created_by');
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'created_by');
+    }
 }

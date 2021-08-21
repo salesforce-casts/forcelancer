@@ -50,17 +50,9 @@ class SearchController extends Controller
 
                 $searchText = is_array($searchText) ? $searchText : array($searchText);
 
-                // foreach ($searchText as $st) {
-                //     $query->orWhere('describe', 'like',  '%' . $st . '%');
-                // }
-
-                // Not working
-                // $query->oWhereIn(function () use ($searchText, $query) {
-                //     return $searchText;
-                //     foreach ($searchText as $st) {
-                //         $query->onWhere('describe', 'like', '%' . $st . '%');
-                //     }
-                // });
+                foreach ($searchText as $st) {
+                    $query->orWhere('describe', 'like',  '%' . $st . '%');
+                }
             }
             if ($country != null) {
                 $query->orWhere('country', '=', $country);
