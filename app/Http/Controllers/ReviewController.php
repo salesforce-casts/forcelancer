@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Portfolio;
+use App\Models\User;
+use App\Models\Review;
 use App\Models\Resource;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use DB;
 
-class PortfolioController extends Controller
+use Illuminate\Http\Request;
+
+class ReviewController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class PortfolioController extends Controller
      */
     public function index()
     {
-        return view('portfolio.index');
+        //
     }
 
     /**
@@ -27,7 +27,7 @@ class PortfolioController extends Controller
      */
     public function create()
     {
-        //
+        return view('reviews.new');
     }
 
     /**
@@ -38,43 +38,50 @@ class PortfolioController extends Controller
      */
     public function store(Request $request)
     {
-        $projects = $request->get('proj');
-        $resource = Resource::where('email', Auth::user()->email)->first();
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'review' => 'required|min:3|max:1000'
+        ]);
 
-        $newProject = [];
-        foreach ($projects as $project) {
-            $p['title'] = $project['title'];
-            $p['description'] = $project['description'];
-            $p['video_url'] = $project['video_url'];
-            $p['created_by'] = Auth::id();
-            $p['resource_id'] = $resource->id;
-            array_push($newProject, $p);
+        $user = User::find(1);
+        $resource = Resource::find(11);
+
+        $review = new Review;
+        $review->title = $validated['title'];
+        $review->review = $validated['review'];
+
+        // TODO: Make it dynamic
+        $review->rating = 4.8;
+
+        $review->resource()->associate($resource);
+        $review->user()->associate($user);
+
+        $saved = $review->save();
+
+        if ($saved) {
+            return view('dashboard');
         }
-
-        $result = DB::table('portfolios')->insert($newProject);
-
-        // TODO: Return result and not the info user provided
-        return $projects;
+        return redirect()->back()->withErrors($validated);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Portfolio $portfolio)
+    public function show($id)
     {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
+     * @param  int  $id
      *
-     * @param  \App\Models\Portfolio  $portfolio
      * @return \Illuminate\Http\Response
      */
-    public function edit(Portfolio $portfolio)
+    public function edit($id)
     {
         //
     }
@@ -83,10 +90,10 @@ class PortfolioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Portfolio $portfolio)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -94,10 +101,10 @@ class PortfolioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Portfolio $portfolio)
+    public function destroy($id)
     {
         //
     }

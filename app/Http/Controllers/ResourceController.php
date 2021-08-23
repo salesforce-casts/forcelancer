@@ -19,8 +19,8 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        $resources = Resource::limit(25)->orderBy("created_at", "desc")->get();
-        return view('index', compact('resources'));
+        // $resources = Resource::limit(25)->orderBy("created_at", "desc")->get();
+        return view('index');
     }
 
     /**

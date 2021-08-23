@@ -11,13 +11,31 @@ class Resource extends Model
 
     protected $guarded = ['total_hours_invoiced', 'total_earnings', 'created_by', 'created_by'];
 
+    // protected $appends = ['url'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function portfolio()
+
+    public function tags()
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    public function portfolios()
     {
         return $this->hasMany(Portfolio::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    // public function getUrlAttribute()
+    // {
+    //     return route('show_profile', $this->id);
+    // }
 }

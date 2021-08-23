@@ -17,6 +17,8 @@ class CreateResourcesTable extends Migration
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            // TODO: Uncomment this, field used in search functionality
+            // $table->string('title');
             $table->string('email')->unique();
             $table->text('describe');
             $table->string('country');
