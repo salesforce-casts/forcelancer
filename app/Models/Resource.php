@@ -11,7 +11,7 @@ class Resource extends Model
 
     protected $guarded = ['total_hours_invoiced', 'total_earnings', 'created_by', 'created_by'];
 
-    // protected $appends = ['url'];
+    protected $appends = ['url'];
 
     public function user()
     {
@@ -34,8 +34,8 @@ class Resource extends Model
         return $this->hasMany(Review::class);
     }
 
-    // public function getUrlAttribute()
-    // {
-    //     return route('show_profile', $this->id);
-    // }
+    public function getUrlAttribute()
+    {
+        return route('show_profile', $this->id);
+    }
 }

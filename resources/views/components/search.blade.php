@@ -128,7 +128,7 @@
                     @{{ resource.name }}
                     @{{ resource.describe }}
 
-                    <a :href="'/profile/show/' + resource.id" class="cursor-pointer"> read more ...</a>
+                    <a :href="resource.url"> read more ...</a>
                 </div>
             </div>
         </div>
