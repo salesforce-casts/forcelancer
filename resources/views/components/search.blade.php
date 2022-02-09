@@ -128,8 +128,7 @@
                     @{{ resource.name }}
                     @{{ resource.describe }}
 
-                    {{-- https://laracasts.com/discuss/channels/vue/add-route-parameter-with-vuejs --}}
-                    <a href="/profile/show/@{{ resource.id }}" class="cursor-pointer"> read more ...</a>
+                    <a :href="'/profile/show/' + resource.id" class="cursor-pointer"> read more ...</a>
                 </div>
             </div>
         </div>
