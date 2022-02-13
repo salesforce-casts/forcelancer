@@ -18,7 +18,6 @@ class Resource extends Model
         return $this->belongsTo(User::class);
     }
 
-
     public function tags()
     {
         return $this->hasMany(Tag::class);
@@ -32,6 +31,11 @@ class Resource extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     public function getUrlAttribute()

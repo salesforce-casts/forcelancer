@@ -86,6 +86,6 @@ Route::get('/tags', TagController::class)->name('tags');
 Route::get('/countries', CountryController::class)->name('countries');
 Route::get('/engagement/{id}/review', [ReviewController::class, 'create'])->name('show_review');
 Route::post('/engagement/1/review', [ReviewController::class, 'store'])->name('store_review');
-Route::get('/resource/hire', RazorpayController::class)->name('hire')->middleware('auth');
+Route::post('/resource/hire', RazorpayController::class)->name('hire')->middleware('auth');
 Route::post('/resource/hire/success', HireSuccessController::class)->name('hire.success')->middleware('auth');
 require __DIR__ . '/auth.php';
