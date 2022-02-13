@@ -19,20 +19,22 @@
 
                     <!-- Display a payment form -->
                     {{--
-                        <form id="payment-form">
-                            Hey
-                            <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+                    <form id="payment-form">
+                        Hey
+                        <div id="card-element">
+                            <!--Stripe.js injects the Card Element-->
+                        </div>
 
-                            <button id="submit">
-                                <div class="spinner hidden" id="spinner"></div>
-                                <span id="button-text">Pay now</span>
-                            </button>
-                            <p id="card-error" role="alert"></p>
-                            <p class="result-message hidden">
+                        <button id="submit">
+                            <div class="spinner hidden" id="spinner"></div>
+                            <span id="button-text">Pay now</span>
+                        </button>
+                        <p id="card-error" role="alert"></p>
+                        <p class="result-message hidden">
                             Payment succeeded, see the result in your
                             <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
-                            </p>
-                        </form>
+                        </p>
+                    </form>
                     --}}
 
                     <!-- Email Address -->
@@ -196,7 +198,8 @@
                                             Cancel
                                         </button>
                                         <button type="submit"
-                                            class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                            @click="hire">
                                             Save
                                         </button>
                                     </div>
@@ -208,8 +211,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    </div>
     </div>
     {{-- <script>
         // const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
@@ -337,7 +338,7 @@
             }
         };
     </script> --}}
-
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
         var app = Vue.createApp({
             data(){
@@ -345,7 +346,28 @@
                     noOfHours : 1,
                     charges : '{{ $resource->hourly_rate }}',
                     finalCharges : '{{ $resource->hourly_rate }}',
-                    selectedHiringMode : 'Hourly'
+                    selectedHiringMode : 'Hourly',
+                    options : {
+                        "key": "rzp_test_2EILRYIVI37u37", // Enter the Key ID generated from the Dashboard
+                        "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                        "currency": "INR",
+                        "name": "Acme Corp",
+                        "description": "Test Transaction",
+                        "image": "https://example.com/your_logo",
+                        "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                        "callback_url": "http://localhost:8000/resource/hire/success",
+                        "prefill": {
+                            "name": "{{ $resource->name }}",
+                            "email": "{{ $resource->email }}",
+                            "contact": ""
+                        },
+                        "notes": {
+                            "address": "Razorpay Corporate Office"
+                        },
+                        "theme": {
+                            "color": "#3399cc"
+                        }
+                    }
                 }
             },
             methods: {
@@ -364,17 +386,17 @@
                     fetch("{{ route('check.availability') }}", {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                            "X-CSRF-Token": token
+                            "X-CSRF-Token": token,
+                            "Content-Type": "application/x-www-form-urlencoded"
                         },
                         body: JSON.stringify('{{$resource->id}}')
                     })
-                    .then(function(result) {
-                        console.log(result);
-                    })
-                    .catch( (error) => {
-                        console.log(error);
-                    })
+                        .then((result) => {
+                            console.log(result);
+                        })
+                        .catch( (error) => {
+                            console.log(error);
+                        })
                 },
                 handleChargesDisplay(event){
                     let value = parseInt(event.target.value);
@@ -411,8 +433,40 @@
                     console.log(this.charges);
                     console.log(this.noOfHours);
                     this.finalCharges = this.charges * this.noOfHours;
+                },
+                hire(event){
+                    event.preventDefault();
+
+                    fetch("{{ route('hire') }}")
+                        .then((result) => {
+                            console.log(JSON.stringify(result));
+                            this.options.order_id = result.id;
+                            var rzp1 = new Razorpay(this.options);
+                            rzp1.open();
+                        })
+                        .catch( (error) => {
+                            console.log(error);
+                        })
+                },
+                hireSuccessful(response){
+                    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    fetch("{{ route('hire.success') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded",
+                            "X-CSRF-Token": token
+                        },
+                        body: JSON.stringify(response)
+                    })
+                    .then((result) => {
+                        return result.json();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
                 }
             }
+
         });
         const vm  = app.mount('.cs-dahsboard-main');
     </script>
