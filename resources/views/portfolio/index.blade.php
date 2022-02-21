@@ -78,7 +78,7 @@
                     })
                     .then((result) => {
                         console.log(result);
-                        // window.location.href = 'http://localhost:8000/dashboard';
+                        window.location.href = 'http://localhost:8000/dashboard';
                     })
                     .catch(er => {
                         console.log(er);

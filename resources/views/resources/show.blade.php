@@ -19,20 +19,22 @@
 
                     <!-- Display a payment form -->
                     {{--
-                        <form id="payment-form">
-                            Hey
-                            <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+                    <form id="payment-form">
+                        Hey
+                        <div id="card-element">
+                            <!--Stripe.js injects the Card Element-->
+                        </div>
 
-                            <button id="submit">
-                                <div class="spinner hidden" id="spinner"></div>
-                                <span id="button-text">Pay now</span>
-                            </button>
-                            <p id="card-error" role="alert"></p>
-                            <p class="result-message hidden">
+                        <button id="submit">
+                            <div class="spinner hidden" id="spinner"></div>
+                            <span id="button-text">Pay now</span>
+                        </button>
+                        <p id="card-error" role="alert"></p>
+                        <p class="result-message hidden">
                             Payment succeeded, see the result in your
                             <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
-                            </p>
-                        </form>
+                        </p>
+                    </form>
                     --}}
 
                     <!-- Email Address -->
@@ -195,8 +197,9 @@
                                             @click="hide">
                                             Cancel
                                         </button>
-                                        <button type="submit"
-                                            class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        <button
+                                            class="ml-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                            @click="handleHire">
                                             Save
                                         </button>
                                     </div>
@@ -209,135 +212,8 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
-    {{-- <script>
-        // const csrfToken = document.head.querySelector("[name~=csrf-token][content]").content;
-        let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-        // var stripe = Stripe('pk_test_ltxNNQm0B3dyUKRkJovSpK3u');
-        var purchase = {
-            items: [{
-                id: "xl-tshirt"
-            }]
-        };
-        // Disable the button until we have Stripe set up on the page
-        document.querySelector("button").disabled = true;
-
-        let stripe = Stripe('pk_test_1MBub2bbCHaLGAeZ2n73dwyx')
-
-        fetch("/profile", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-CSRF-Token": token
-                },
-                body: JSON.stringify(purchase)
-            })
-            .then(function(result) {
-                return result.json();
-            })
-            .then(function(data) {
-                // console.log(JSON.parse(data));
-                var elements = stripe.elements();
-                var style = {
-                    base: {
-                        color: "#32325d",
-                        fontFamily: 'Arial, sans-serif',
-                        fontSmoothing: "antialiased",
-                        fontSize: "16px",
-                        "::placeholder": {
-                            color: "#32325d"
-                        }
-                    },
-                    invalid: {
-                        fontFamily: 'Arial, sans-serif',
-                        color: "#fa755a",
-                        iconColor: "#fa755a"
-                    }
-                };
-                var card = elements.create("card", {
-                    style: style
-                });
-                // Stripe injects an iframe into the DOM
-                card.mount("#card-element");
-                card.on("change", function(event) {
-                    // Disable the Pay button if there are no card details in the Element
-                    document.querySelector("button").disabled = event.empty;
-                    document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
-                });
-                var form = document.getElementById("payment-form");
-                form.addEventListener("submit", function(event) {
-                    console.log('Trying to make the payment------');
-                    event.preventDefault();
-
-                    // Complete payment when the submit button is clicked
-                    payWithCard(stripe, card, data.clientSecret);
-                    console.log('Trying to make the payment------');
-
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        // Calls stripe.confirmCardPayment
-        // If the card requires authentication Stripe shows a pop-up modal to
-        // prompt the user to enter authentication details without leaving your page.
-        var payWithCard = function(stripe, card, clientSecret) {
-            loading(true);
-            console.log(clientSecret);
-            stripe
-                .confirmCardPayment(clientSecret, {
-                    payment_method: {
-                        card : card
-                    }
-                })
-                .then(function(result) {
-                    if (result.error) {
-                        // Show error to your customer
-                        showError(result.error.message);
-                    } else {
-                        // The payment succeeded!
-                        orderComplete(result.paymentIntent.id);
-                    }
-                });
-        };
-
-        var orderComplete = function(paymentIntentId) {
-            loading(false);
-            document
-                .querySelector(".result-message a")
-                .setAttribute(
-                    "href",
-                    "https://dashboard.stripe.com/test/payments/" + paymentIntentId
-                );
-            document.querySelector(".result-message").classList.remove("hidden");
-            document.querySelector("button").disabled = true;
-        };
-        // Show the customer the error from Stripe if their card fails to charge
-        var showError = function(errorMsgText) {
-            loading(false);
-            var errorMsg = document.querySelector("#card-error");
-            errorMsg.textContent = errorMsgText;
-            setTimeout(function() {
-                errorMsg.textContent = "";
-            }, 4000);
-        };
-        // Show a spinner on payment submission
-        var loading = function(isLoading) {
-            if (isLoading) {
-                // Disable the button and show a spinner
-                document.querySelector("button").disabled = true;
-                document.querySelector("#spinner").classList.remove("hidden");
-                document.querySelector("#button-text").classList.add("hidden");
-            } else {
-                document.querySelector("button").disabled = false;
-                document.querySelector("#spinner").classList.add("hidden");
-                document.querySelector("#button-text").classList.remove("hidden");
-            }
-        };
-    </script> --}}
-
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
         var app = Vue.createApp({
             data(){
@@ -345,7 +221,28 @@
                     noOfHours : 1,
                     charges : '{{ $resource->hourly_rate }}',
                     finalCharges : '{{ $resource->hourly_rate }}',
-                    selectedHiringMode : 'Hourly'
+                    selectedHiringMode : 'Hourly',
+                    options : {
+                        "key": "rzp_test_2EILRYIVI37u37", // Enter the Key ID generated from the Dashboard
+                        "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                        "currency": "INR",
+                        "name": "{{ env('APP_NAME') }}",
+                        "description": "Test Transaction",
+                        "image": "https://example.com/your_logo",
+                        "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                        "callback_url": "{{ route('hire.success') }}",
+                        "prefill": {
+                            "name": "{{ $resource->name }}",
+                            "email": "{{ $resource->email }}",
+                            "contact": "7032650325"
+                        },
+                        "notes": {
+                            "address": "Razorpay Corporate Office"
+                        },
+                        "theme": {
+                            "color": "#3399cc"
+                        }
+                    }
                 }
             },
             methods: {
@@ -364,17 +261,17 @@
                     fetch("{{ route('check.availability') }}", {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                            "X-CSRF-Token": token
+                            "X-CSRF-Token": token,
+                            "Content-Type": "application/x-www-form-urlencoded"
                         },
                         body: JSON.stringify('{{$resource->id}}')
                     })
-                    .then(function(result) {
-                        console.log(result);
-                    })
-                    .catch( (error) => {
-                        console.log(error);
-                    })
+                        .then((result) => {
+                            console.log(result);
+                        })
+                        .catch( (error) => {
+                            console.log(error);
+                        })
                 },
                 handleChargesDisplay(event){
                     let value = parseInt(event.target.value);
@@ -411,8 +308,40 @@
                     console.log(this.charges);
                     console.log(this.noOfHours);
                     this.finalCharges = this.charges * this.noOfHours;
+                },
+                handleHire(event){
+                    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    // let url = "{{ route('hire', ":id") }}";
+                    // url = url.replace(":id", {{ $resource->id }});
+                    const resourceDetails = {
+                        'resource_id' : '{{ $resource->id }}'
+                    }
+                    console.log("{{ route('hire') }}");
+                    fetch("{{ route('hire') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-Token": token,
+                        },
+                        body: JSON.stringify({ resource_id: resourceDetails })
+                    })
+                    .then((result) => {
+                        console.log(JSON.stringify(result));
+                        return result.json();
+                    })
+                    .then((result) => {
+                        console.log(result);
+                        this.options.order_id = result.order_id;
+                        var rzp1 = new Razorpay(this.options);
+                        rzp1.open();
+                    })
+                    .catch( (error) => {
+                        console.log(error);
+                    });
                 }
+
             }
+
         });
         const vm  = app.mount('.cs-dahsboard-main');
     </script>

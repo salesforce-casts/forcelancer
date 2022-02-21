@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\Portfolio;
 use App\Models\Resource;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
@@ -91,7 +93,9 @@ class ResourceController extends Controller
      */
     public function show(Resource $resource)
     {
-        return view('resources.show', compact('resource'));
+        $portfolios = Portfolio::where('resource_id', $resource->id)->get();
+        $reviews = Review::where('resource_id', $resource->id)->get();
+        return view('resources.show', compact('resource', 'portfolios', 'reviews'));
     }
 
     /**
