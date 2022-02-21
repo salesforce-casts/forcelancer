@@ -54,7 +54,6 @@ class PortfolioController extends Controller
         $result = DB::table('portfolios')->insert($newProject);
 
         // TODO: Return result and not the info user provided
-        return $projects;
     }
 
     /**
