@@ -13,6 +13,16 @@ use Illuminate\Support\Str;
 class ResourceFactory extends Factory
 {
 
+    protected $model = Resource::class;
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Resource $resource){
+
+        });
+    }
+
+
     /**
      * Define the model's default state.
      *
