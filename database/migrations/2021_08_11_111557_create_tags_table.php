@@ -16,11 +16,9 @@ class CreateTagsTable extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('resource_id')->unsigned();
             $table->integer('created_by')->unsigned();
             $table->timestamps();
 
-            $table->foreign('resource_id')->references('id')->on('resources');
             $table->foreign('created_by')->references('id')->on('users');
         });
     }
