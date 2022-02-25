@@ -38,7 +38,7 @@
                     <!-- Email Address -->
                     <div class="flex flex-nowrap">
 
-                        {{ $resource->name }}
+{{--                        {{ $resource->name }}--}}
 
                         <div class="cs-hire-me">
                             <form @submit.prevent="checkAvailability">
@@ -152,7 +152,9 @@
                                         </div>
                                         <div class="mt-1">
                                             <p class="text-sm text-indigo-300">
-                                                Hire {{ $resource->name }} to pair program with you!
+                                                Hire
+{{--                                                {{ $resource->name }} --}}
+                                                to pair program with you!
                                             </p>
                                         </div>
                                     </div>
@@ -162,7 +164,7 @@
                                             @php
                                             $hiring_mode = ['Hourly', 'Weekly', 'Monthly'];
                                             @endphp
-                                            {{ $resource->name }}
+{{--                                            {{ $resource->name }}--}}
                                             <x-picklist id="hiring_mode" class="block mt-1 w-full" name="hiring_mode"
                                                 :value="$hiring_mode" @change="handleChargesDisplay" required
                                                 autofocus />

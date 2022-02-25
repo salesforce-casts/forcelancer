@@ -13,16 +13,34 @@
             @csrf
 
             <div class="mt-4">
-                <x-label for="user_type" :value="__('User Type')" />
-                @php
-                $hiring_mode = ['Resource', 'User'];
-                @endphp
-                <x-picklist id=" hiring_mode" class="block mt-1 w-full" name="hiring_mode" :value="$hiring_mode"
-                    @change="handleChargesDisplay" required autofocus />
+                <div>
+                    <label class="text-base font-medium text-gray-900">Select the user type</label>
+                    <p class="text-sm leading-5 text-gray-500">Forcelancer or Hirer? </p>
+                    <fieldset class="mt-4">
+                        <legend class="sr-only">User Type</legend>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                            <div class="flex items-center">
+                                <x-input id="resource"
+                                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" type="radio"
+                                    name="user_type" value="resource" autofocus checked/>
+                                <label for="resource" class="ml-3 block text-sm font-medium text-gray-700"> Forcelancer
+                                </label>
+                            </div>
+
+                            <div class="flex items-center">
+                                <x-input id="hirer" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                                    type="radio" name="user_type" value="hirer" autofocus />
+                                <label for="hirer" class="ml-3 block text-sm font-medium text-gray-700"> Hirer
+                                </label>
+                            </div>
+                    </fieldset>
+                </div>
+
+
             </div>
 
             <!-- Name -->
-            <div>
+            <div class="mt-4">
                 <x-label for="name" :value="__('Name')" />
 
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required

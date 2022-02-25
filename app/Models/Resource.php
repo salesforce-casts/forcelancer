@@ -18,6 +18,10 @@ class Resource extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function owner()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function tags()
     {
