@@ -9,7 +9,7 @@ use App\Models\User;
 use App\Models\Tag;
 use Illuminate\Support\Facades\Auth;
 
-class TagsSeeder extends Seeder
+class TagSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,15 +18,6 @@ class TagsSeeder extends Seeder
      */
     public function run()
     {
-
-        $resource = Resource::find(11);
-        //Auth::id()
-        $user = User::find(4);
-
-        $tag = new Tag;
-        $tag->name = Str::random(10);
-        $tag->resource()->associate($resource);
-        $tag->user()->associate($user);
-        $tag->save();
+        //
     }
 }

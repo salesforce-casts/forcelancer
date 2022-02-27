@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_type'
     ];
 
     /**
@@ -46,6 +47,11 @@ class User extends Authenticatable
     public function createdBy()
     {
         return $this->hasOne(Resource::class, 'created_by');
+    }
+
+    public function resource()
+    {
+        return $this->hasOne(Resource::class);
     }
 
     public function tags()

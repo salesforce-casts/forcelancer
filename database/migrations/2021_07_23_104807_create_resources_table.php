@@ -16,10 +16,14 @@ class CreateResourcesTable extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+
             // TODO: Uncomment this, field used in search functionality
             // $table->string('title');
+
+            // TODO: Remove this and use the relationship field
             $table->string('email')->unique();
+            $table->integer('user_id')->unsigned();
+
             $table->text('describe');
             $table->string('country');
             $table->string('timezone')->nullable();
@@ -33,6 +37,7 @@ class CreateResourcesTable extends Migration
             $table->timestamps();
 
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
