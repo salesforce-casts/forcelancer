@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Portfolio;
+use App\Models\Resource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;

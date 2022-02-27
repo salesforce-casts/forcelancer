@@ -3,12 +3,9 @@
 namespace Database\Factories;
 
 use App\Models\Resource;
-use App\Models\Tag;
-use App\Models\User;
+use App\Models\Portfolio;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class ResourceFactory extends Factory
 {
@@ -18,7 +15,10 @@ class ResourceFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Resource $resource){
-
+            Portfolio::factory(5)->create([
+                'resource_id' => $resource->id,
+                'created_by' => $resource->user->id
+            ]);
         });
     }
 
