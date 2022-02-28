@@ -48,20 +48,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Resource::class, 'created_by');
     }
-
-//    public function resource()
-//    {
-//        return $this->hasOne(Resource::class);
-//    }
-
-    public function tags()
+    // Commenting this fails db:seed, as I am using the relationship in Factory classes
+    public function resource()
     {
-        return $this->hasMany(Tag::class, 'created_by');
-    }
-
-    public function reviews()
-    {
-        return $this->hasMany(Review::class, 'created_by');
+        return $this->hasOne(Resource::class);
     }
 
     public function resources()

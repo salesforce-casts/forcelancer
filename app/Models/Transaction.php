@@ -9,16 +9,16 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    public function resource()
-    {
-        return $this->belongsTo(Resource::class);
-    }
-    public function hirer()
-    {
-        return $this->belongsTo(User::class);
-    }
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
+//    public function resource()
+//    {
+//        return $this->belongsTo(Resource::class);
+//    }
+//    public function hirer()
+//    {
+//        return $this->belongsTo(User::class);
+//    }
+//    public function user()
+//    {
+//        return $this->belongsTo(User::class, 'created_by');
+//    }
 }
