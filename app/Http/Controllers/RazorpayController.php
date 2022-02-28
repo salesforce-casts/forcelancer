@@ -32,8 +32,8 @@ class RazorpayController extends Controller
 
         // # TODO: Create a Receipt record in the table and use the id here
         $order = $api->order->create(array('receipt' => $receipt_id, 'amount' => 100, 'currency' => 'INR'));
-        $auth_user = User::find(Auth::id());
-        $transaction = $auth_user->resources()->attach($resource, ['order_id' => $order->id, 'receipt_id' => $receipt_id, 'created_by' => Auth::id()]);
+        $hirer = User::find(Auth::id());
+        $transaction = $hirer->resources()->attach($resource, ['order_id' => $order->id, 'receipt_id' => $receipt_id, 'created_by' => Auth::id()]);
         if (!$transaction){
             return response()->json(['order_id' => $order->id]);
         }
