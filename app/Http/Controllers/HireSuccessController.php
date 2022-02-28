@@ -17,10 +17,10 @@ class HireSuccessController extends Controller
     public function __invoke(Request $request)
     {
         $paymentId = $request['razorpay_payment_id'];
-
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
-        $payment = $api->payment->fetch($paymentId);
-        Transaction::where('order_id', $payment->order_id)->update(['payment_id' => $paymentId]);
+        $orderId = $request['razorpay_order_id'];
+//        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+//        $payment = $api->payment->fetch($paymentId);
+        Transaction::where('order_id', $orderId)->update(['payment_id' => $paymentId]);
 
         return view('dashboard');
     }

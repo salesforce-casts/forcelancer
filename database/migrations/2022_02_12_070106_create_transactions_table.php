@@ -23,8 +23,6 @@ class CreateTransactionsTable extends Migration
             $table->integer('created_by')->unsigned();
             $table->timestamps();
 
-            $table->foreign('resource_id')->references('id')->on('resources');
-            $table->foreign('hirer_id')->references('id')->on('users');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }

@@ -49,10 +49,10 @@ class User extends Authenticatable
         return $this->hasOne(Resource::class, 'created_by');
     }
 
-    public function resource()
-    {
-        return $this->hasOne(Resource::class);
-    }
+//    public function resource()
+//    {
+//        return $this->hasOne(Resource::class);
+//    }
 
     public function tags()
     {
@@ -64,8 +64,10 @@ class User extends Authenticatable
         return $this->hasMany(Review::class, 'created_by');
     }
 
-    public function transactions()
+    public function resources()
     {
-        return $this->hasMany(Transaction::class, 'created_by');
+        return $this
+                ->belongsToMany(Resource::class, 'transactions', 'hirer_id', 'resource_id')
+                ->withTimestamps();
     }
 }

@@ -13,10 +13,10 @@ class Resource extends Model
 
     protected $appends = ['url'];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+//    public function user()
+//    {
+//        return $this->belongsTo(User::class);
+//    }
 
     public function owner()
     {
@@ -38,9 +38,11 @@ class Resource extends Model
         return $this->hasMany(Review::class);
     }
 
-    public function transactions()
+    public function users()
     {
-        return $this->hasMany(Transaction::class);
+        return $this
+                ->belongsToMany(User::class, 'transactions', 'hirer_id', 'resource_id')
+                ->withTimestamps();;
     }
 
     public function getUrlAttribute()
