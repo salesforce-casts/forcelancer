@@ -15,7 +15,7 @@ class Transaction extends Model
     }
     public function hirer()
     {
-        return $this->belongsTo(Resource::class, 'hirer_id');
+        return $this->belongsTo(User::class);
     }
     public function user()
     {

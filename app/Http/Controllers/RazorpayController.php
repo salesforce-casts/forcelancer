@@ -30,15 +30,16 @@ class RazorpayController extends Controller
         $transaction_count = Transaction::count();
         $receipt_id = '#' . str_pad($transaction_count + 1, 8, "0", STR_PAD_LEFT);
 
-        // # TODO: Create a Recepit record in the table and use the id here
+        // # TODO: Create a Receipt record in the table and use the id here
         $order = $api->order->create(array('receipt' => $receipt_id, 'amount' => 100, 'currency' => 'INR'));
         $transaction = new Transaction();
         $transaction->order_id = $order->id;
         $transaction->receipt_id = $order->receipt;
-        $transaction->resource()->associate($resource);
 
-        $auth_user = User::find(Auth::id())->firstOrFail();
+        $auth_user = User::find(Auth::id());
         $transaction->hirer()->associate($auth_user);
+//        dd($auth_user);
+        $transaction->resource()->associate($resource);
         $transaction->user()->associate($auth_user);
         $saved = $transaction->save();
         if ($saved) {
