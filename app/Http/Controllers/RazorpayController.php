@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hirer;
 use App\Models\Resource;
 use App\Models\User;
 use App\Models\Transaction;
@@ -32,9 +33,11 @@ class RazorpayController extends Controller
 
         // # TODO: Create a Receipt record in the table and use the id here
         $order = $api->order->create(array('receipt' => $receipt_id, 'amount' => 100, 'currency' => 'INR'));
-        $hirer = User::find(Auth::id());
-        $transaction = $hirer->resources()->attach($resource, ['order_id' => $order->id, 'receipt_id' => $receipt_id, 'created_by' => Auth::id()]);
-        if (!$transaction){
+
+        $hirer = Hirer::where('user_id', '=', Auth::id())->first();
+        $hirer_resource = $hirer->resources()->attach($resource, ['order_id' => $order->id, 'receipt_id' => $receipt_id, 'created_by' => Auth::id()]);
+
+        if (!$hirer_resource){
             return response()->json(['order_id' => $order->id]);
         }
         abort(404);

@@ -62,29 +62,35 @@ class ResourceController extends Controller
             'monthly_rate' => 'required|numeric|min:1|max:500',
         ]);
 
-        $user = User::find(1);
+        $user = Auth::id();
 
-        // TODO: Refactor this
-        // TODO: Populated user_id with logged in id, needs testing.
-        $resource = new Resource;
+        $resource_exists = Resource::find($user->resource()->id);
 
-        // $resource->name = $request->input('name');
-        $resource->email = $request->input('email');
-        $resource->describe = $request->input('describe');
-        $resource->country = $request->input('country');
-        $resource->skills = $request->input('skills');
-        $resource->hourly_rate = $request->input('hourly_rate');
-        $resource->weekly_rate = $request->input('weekly_rate');
-        $resource->monthly_rate = $request->input('monthly_rate');
-        $resource->user_id = Auth::id();
+        if(!$resource_exists) {
 
-        $saved = $user->createdBy()->save($resource);
+            // TODO: Refactor this
+            // TODO: Populated user_id with logged in id, needs testing.
+            $resource = new Resource;
 
-        if ($saved) {
-            return view('dashboard');
+            // $resource->name = $request->input('name');
+            $resource->email = $request->input('email');
+            $resource->describe = $request->input('describe');
+            $resource->country = $request->input('country');
+            $resource->skills = $request->input('skills');
+            $resource->hourly_rate = $request->input('hourly_rate');
+            $resource->weekly_rate = $request->input('weekly_rate');
+            $resource->monthly_rate = $request->input('monthly_rate');
+            $resource->user_id = Auth::id();
+
+            $saved = $user->owner()->save($resource);
+
+            if ($saved) {
+                return view('dashboard');
+            }
+
+            return redirect()->back()->withErrors($validated);
         }
-
-        return redirect()->back()->withErrors($validated);
+        abort(404);
     }
 
     /**
