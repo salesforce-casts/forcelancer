@@ -34,8 +34,8 @@ class RazorpayController extends Controller
         $secret = env('RAZORPAY_SECRET');
 
         $api = new Api($keyId, $secret);
-
-        $hireResourceCount = HirerResource::count();
+        // TODO: Change this to HirerResource
+        $hireResourceCount = Transaction::count();
 
         $receiptId = '#' . str_pad($hireResourceCount + 1, 8, "0", STR_PAD_LEFT);
         // # TODO: Create a Receipt record in the table and use the id here

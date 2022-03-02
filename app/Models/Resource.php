@@ -40,7 +40,7 @@ class Resource extends Model
 
     public function hirers()
     {
-        return $this->belongsToMany(Hirer::class, 'hirer_resource')
+        return $this->belongsToMany(Hirer::class)
             ->withTimestamps();
     }
 
