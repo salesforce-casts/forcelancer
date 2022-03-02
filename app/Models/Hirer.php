@@ -9,8 +9,7 @@ class Hirer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['created_by'];
-
+    protected $guarded = [];
     public function user(){
         return $this->belongsTo(User::class);
     }
@@ -18,7 +17,7 @@ class Hirer extends Model
 
     public function resources()
     {
-        return $this->belongsToMany(Resource::class)
+        return $this->belongsToMany(Resource::class, 'hirer_resource')
                     ->withTimestamps();
     }
 }

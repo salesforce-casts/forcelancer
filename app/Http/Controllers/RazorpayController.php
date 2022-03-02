@@ -35,7 +35,7 @@ class RazorpayController extends Controller
 
         $api = new Api($keyId, $secret);
 
-        $hireResourceCount = Transaction::count();
+        $hireResourceCount = HirerResource::count();
 
         $receiptId = '#' . str_pad($hireResourceCount + 1, 8, "0", STR_PAD_LEFT);
         // # TODO: Create a Receipt record in the table and use the id here
@@ -43,7 +43,6 @@ class RazorpayController extends Controller
 
         $hirer = Hirer::where('user_id', '=', Auth::id())->first();
 
-        dd($hirer);
         $hirerResource = $hirer->resources()->attach($resource, [
             'order_id' => $order->id,
             'receipt_id' => $receiptId,
