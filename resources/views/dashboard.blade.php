@@ -35,7 +35,6 @@
                             </a>
                         </div>
                         <div class="mt-4">
-                            -----
 {{--                            {{ isset($hirerResources) ? count($hirerResources) > 1 : '' }}--}}
                             <x-timeline :hirerResources="$hirerResources"></x-timeline>
                         </div>
