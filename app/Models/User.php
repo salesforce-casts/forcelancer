@@ -43,29 +43,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // TODO: Change the method name
-    public function createdBy()
+    public function owner()
     {
         return $this->hasOne(Resource::class, 'created_by');
     }
-
+    // TODO:Commenting this fails db:seed, as I am using the relationship in Factory classes
     public function resource()
     {
         return $this->hasOne(Resource::class);
     }
 
-    public function tags()
+    public function hirer()
     {
-        return $this->hasMany(Tag::class, 'created_by');
-    }
-
-    public function reviews()
-    {
-        return $this->hasMany(Review::class, 'created_by');
-    }
-
-    public function transactions()
-    {
-        return $this->hasMany(Transaction::class, 'created_by');
+        return $this->hasOne(Hirer::class);
     }
 }

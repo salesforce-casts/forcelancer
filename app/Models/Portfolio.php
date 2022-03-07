@@ -13,4 +13,6 @@ class Portfolio extends Model
     {
         return $this->belongsTo(Resource::class);
     }
+
+    // TODO: Create foreign key relation between users and portfolio
 }

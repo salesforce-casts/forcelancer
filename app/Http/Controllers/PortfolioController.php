@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Portfolio;
 use App\Models\Resource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -39,7 +40,9 @@ class PortfolioController extends Controller
     public function store(Request $request)
     {
         $projects = $request->get('proj');
-        $resource = Resource::where('email', Auth::user()->email)->first();
+
+        $user = User::where('email', '=', Auth::user()->email)->first();
+        $resource = Resource::where('user_id', '=', $user->id)->first();
 
         $newProject = [];
         foreach ($projects as $project) {

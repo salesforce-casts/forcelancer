@@ -10,6 +10,7 @@ use App\Http\Controllers\HireSuccessController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\DashboardController;
 use App\Mail\AvailableForHireNotification;
 use App\Mail\ConfirmAvailabilityNotification;
 use Illuminate\Support\Facades\Mail;
@@ -77,9 +78,7 @@ Route::get('/available/{resource}', function (Resource $resource) {
 Route::get('/profile/show/{resource}', [ResourceController::class, 'show'])
     ->name('show_profile');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', App\Http\Controllers\DashboardController::class)->name('dashboard')->middleware(['auth']);
 
 Route::get('/search', SearchController::class)->name('search');
 Route::get('/tags', TagController::class)->name('tags');

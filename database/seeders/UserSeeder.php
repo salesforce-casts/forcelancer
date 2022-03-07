@@ -19,6 +19,9 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory(5)
+            ->hasHirer(1, function (array $attributes, User $user){
+                return ['created_by' => $user->id];
+            })
             ->create(['user_type' => 'hirer']);
 //
         User::factory(5)

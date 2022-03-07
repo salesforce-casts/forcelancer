@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Hirer;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -51,6 +52,12 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        if($request->user_type == "hirer")
+        {
+            $hirer = new Hirer(['created_by' => $user->id]);
+            $user->hirer()->save($hirer);
+        }
 
         return redirect(RouteServiceProvider::HOME);
     }

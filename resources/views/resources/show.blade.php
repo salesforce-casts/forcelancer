@@ -282,7 +282,8 @@
                     if(value === 0){
                         selectedCharges = '{{ $resource->hourly_rate }}';
                         document.querySelector('.cs-no-of-hours').classList.toggle('invisible');
-                        this.selectedHiringMode = this.selectedHiringMode ? this.selectedHiringMode : 'Hourly';
+                        // this.selectedHiringMode = this.selectedHiringMode ? this.selectedHiringMode : 'Hourly';
+                        this.selectedHiringMode = 'Hourly';
 
                     }else if(value === 1){
                         selectedCharges = '{{ $resource->weekly_rate }}';
@@ -295,12 +296,13 @@
                         document.querySelector('.cs-no-of-hours').classList.add('invisible');
                         this.selectedHiringMode = 'Monthly';
 
-                    }else{
-                        document.querySelector('.cs-no-of-hours').classList.add('invisible');
-                        selectedCharges = '';
-                        this.selectedHiringMode = null;
-
                     }
+                    // else{
+                    //     document.querySelector('.cs-no-of-hours').classList.add('invisible');
+                    //     selectedCharges = '';
+                    //     this.selectedHiringMode = null;
+                    //
+                    // }
                     this.finalCharges = selectedCharges;
                     console.log(this.selectedHiringMode);
                     console.log(selectedCharges);
@@ -313,10 +315,11 @@
                 },
                 handleHire(event){
                     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                    // let url = "{{ route('hire', ":id") }}";
-                    // url = url.replace(":id", {{ $resource->id }});
                     const resourceDetails = {
-                        'resource_id' : '{{ $resource->id }}'
+                        'resource_id' : '{{ $resource->id }}',
+                        'selected_hiring_mode' : this.selectedHiringMode,
+                        'final_charges' : this.finalCharges,
+                        'no_of_hours' : (this.selectedHiringMode === 'Hourly') ? this.noOfHours : null
                     }
                     console.log("{{ route('hire') }}");
                     fetch("{{ route('hire') }}", {
@@ -325,7 +328,7 @@
                             "Content-Type": "application/json",
                             "X-CSRF-Token": token,
                         },
-                        body: JSON.stringify({ resource_id: resourceDetails })
+                        body: JSON.stringify({ resourceDetails })
                     })
                     .then((result) => {
                         console.log(JSON.stringify(result));

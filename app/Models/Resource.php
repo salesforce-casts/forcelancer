@@ -20,7 +20,7 @@ class Resource extends Model
 
     public function owner()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function tags()
@@ -38,9 +38,10 @@ class Resource extends Model
         return $this->hasMany(Review::class);
     }
 
-    public function transactions()
+    public function hirers()
     {
-        return $this->hasMany(Transaction::class);
+        return $this->belongsToMany(Hirer::class)
+            ->withTimestamps();
     }
 
     public function getUrlAttribute()

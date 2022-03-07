@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HirerResource;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
@@ -17,11 +18,11 @@ class HireSuccessController extends Controller
     public function __invoke(Request $request)
     {
         $paymentId = $request['razorpay_payment_id'];
+        $orderId = $request['razorpay_order_id'];
+//        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+//        $payment = $api->payment->fetch($paymentId);
+        HirerResource::where('order_id', $orderId)->update(['payment_id' => $paymentId]);
 
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
-        $payment = $api->payment->fetch($paymentId);
-        Transaction::where('order_id', $payment->order_id)->update(['payment_id' => $paymentId]);
-
-        return view('dashboard');
+        return redirect()->route('dashboard');
     }
 }
