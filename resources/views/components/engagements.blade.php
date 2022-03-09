@@ -5,7 +5,7 @@
         @if ($active === true)
             <p class="text-2xl mt-4">Ongoing Engagements</p>
         @else
-            <p class="text-2xl mt-16"> Completed Engagements</p>
+            <p class="text-2xl mt-8"> Completed Engagements</p>
         @endif
     </div>
 

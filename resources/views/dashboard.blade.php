@@ -39,6 +39,8 @@
 {{--                            <x-timeline :hirerResources="$hirerResources"></x-timeline>--}}
                             <x-engagements :hirerResources="$hirerResources" :active="true"></x-engagements>
                             <x-engagements :hirerResources="$oldHirerResources" :active="false"></x-engagements>
+
+                            <x-timeline :events="$events"></x-timeline>
                         </div>
                     </form>
 {{--                    <div class="cs-hire-me">--}}
