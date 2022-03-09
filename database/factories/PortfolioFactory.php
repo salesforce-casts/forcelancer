@@ -15,10 +15,11 @@ class PortfolioFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Portfolio $portfolio){
-           Review::factory(1)->create([
-               'created_by' => $portfolio->resource->user->id,
-               'resource_id' => $portfolio->resource->id
-           ]);
+//            dd($portfolio->id);
+//           review::factory(1)->create([
+//               'created_by' => $portfolio->resource->user->id,
+//               'resource_id' => $portfolio->resource->id
+//           ]);
         });
     }
 
