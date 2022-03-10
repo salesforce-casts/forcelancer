@@ -78,7 +78,7 @@ Route::get('/available/{resource}', function (Resource $resource) {
 Route::get('/profile/show/{resource}', [ResourceController::class, 'show'])
     ->name('show_profile');
 
-Route::get('/dashboard', DashboardController::class)->name('dashboard')->middleware(['auth']);
+//Route::get('/dashboard', DashboardController::class)->name('dashboard')->middleware(['auth']);
 
 Route::get('/search', SearchController::class)->name('search');
 Route::get('/tags', TagController::class)->name('tags');
