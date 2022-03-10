@@ -23,6 +23,7 @@ class CreateHirerResourceTable extends Migration
             $table->boolean('weekly')->default(0);
             $table->integer('hours')->default(0)->unsigned();
             $table->integer('final_charges')->default(0)->unsigned();
+            $table->boolean('completed')->default(false);
             $table->integer('resource_id')->unsigned();
             $table->integer('created_by')->unsigned();
             $table->timestamps();

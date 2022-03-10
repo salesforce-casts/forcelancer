@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\Event;
+use App\Models\Hirer;
+use App\Models\HirerResource;
 use App\Models\Portfolio;
 use App\Models\Resource;
 use App\Models\Review;
@@ -62,11 +65,9 @@ class ResourceController extends Controller
             'monthly_rate' => 'required|numeric|min:1|max:500',
         ]);
 
-        $user = Auth::id();
+        $user = User::find(Auth::id());
 
-        $resource_exists = Resource::find($user->resource()->id);
-
-        if(!$resource_exists) {
+        if(!$user->resource) {
 
             // TODO: Refactor this
             // TODO: Populated user_id with logged in id, needs testing.
@@ -85,7 +86,15 @@ class ResourceController extends Controller
             $saved = $user->owner()->save($resource);
 
             if ($saved) {
-                return view('dashboard');
+
+                $event = new Event([
+                    'narration' => 'Registered your profile',
+                ]);
+                $event->user()->associate(Auth::id());
+                $event->createdBy()->associate(Auth::id());
+                $event->save();
+
+                return redirect('dashboard');
             }
 
             return redirect()->back()->withErrors($validated);
@@ -102,7 +111,8 @@ class ResourceController extends Controller
     public function show(Resource $resource)
     {
         $portfolios = Portfolio::where('resource_id', $resource->id)->get();
-        $reviews = Review::where('resource_id', $resource->id)->get();
+        $hirerResources = HirerResource::where('resource_id', $resource->id)->pluck('id');
+        $reviews = Review::whereIn('hirer_resource_id', $hirerResources)->get();
         return view('resources.show', compact('resource', 'portfolios', 'reviews'));
     }
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
+    protected $fillable = ['title', 'review'];
 
     public function resource()
     {
@@ -17,5 +18,9 @@ class Review extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function hirerResource(){
+        return $this->belongsTo(Resource::class);
     }
 }

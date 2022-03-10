@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\Portfolio;
 use App\Models\Resource;
 use App\Models\User;
@@ -53,9 +54,14 @@ class PortfolioController extends Controller
             $p['resource_id'] = $resource->id;
             array_push($newProject, $p);
         }
-
         $result = DB::table('portfolios')->insert($newProject);
 
+        $event = new Event([
+            'narration' => 'Created portfolios',
+        ]);
+        $event->user()->associate(Auth::id());
+        $event->createdBy()->associate(Auth::id());
+        $event->save();
         // TODO: Return result and not the info user provided
     }
 

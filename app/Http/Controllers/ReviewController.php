@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HirerResource;
 use App\Models\User;
 use App\Models\Review;
 use App\Models\Resource;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -25,9 +27,9 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(HirerResource $hirerResource)
     {
-        return view('reviews.new');
+        return view('reviews.new', compact('hirerResource'));
     }
 
     /**
@@ -40,26 +42,38 @@ class ReviewController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
-            'review' => 'required|min:3|max:1000'
+            'review' => 'required|min:3|max:1000',
+            'engagementId' => 'required|numeric'
         ]);
 
-        $user = User::find(1);
-        $resource = Resource::find(11);
+        $review = Review::where('hirer_resource_id', $validated['engagementId'])->get();
 
-        $review = new Review;
-        $review->title = $validated['title'];
-        $review->review = $validated['review'];
+        if(count($review) > 0)
+        {
+            abort(404);
+        }
+
+        $user = Auth::id();
+
+        $review = new Review($validated);
+//        $review->title = $validated['title'];
+//        $review->review = $validated['review'];
+        $hirerResource = HirerResource::find($validated['engagementId']);
 
         // TODO: Make it dynamic
         $review->rating = 4.8;
 
-        $review->resource()->associate($resource);
+        $review->hirerResource()->associate($hirerResource);
         $review->user()->associate($user);
 
         $saved = $review->save();
 
         if ($saved) {
-            return view('dashboard');
+            $hirerResource->completed = true;
+            $hirerResource->update();
+
+            # TODO Insert a record into Events table
+            return redirect('/dashboard');
         }
         return redirect()->back()->withErrors($validated);
     }

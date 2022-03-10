@@ -23,11 +23,14 @@
                         <li>{{ $error }}</li>
                         @endforeach
                     </ul>
-
                     @endif
-                    <form method="POST" action="{{ route('store_review') }}">
+                    <form method="POST" action="{{ route('store_review', $hirerResource->id) }}">
                         @csrf
                         <!-- Email Address -->
+                        <div>
+
+                            <x-input id="engagementId" class="block mt-1 w-full" type="hidden" name="engagementId" value="{{$hirerResource->id}}"/>
+                        </div>
                         <div>
                             <x-label for="title" :value="__('Title')" />
 

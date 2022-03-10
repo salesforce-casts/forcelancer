@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\HirerResource;
 use App\Models\Transaction;
+use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Razorpay\Api\Api;
 
 class HireSuccessController extends Controller
@@ -21,7 +23,27 @@ class HireSuccessController extends Controller
         $orderId = $request['razorpay_order_id'];
 //        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
 //        $payment = $api->payment->fetch($paymentId);
-        HirerResource::where('order_id', $orderId)->update(['payment_id' => $paymentId]);
+        $hireResourceId = HirerResource::where('order_id', $orderId)->update(['payment_id' => $paymentId]);
+        $hireResource = HirerResource::find($hireResourceId);
+
+        $duration = '';
+        if ($hireResource->monthly)
+        {
+            $duration = ' for ' . $hireResource->monthly . ' months';
+        }elseif ($hireResource->weekly)
+        {
+            $duration = ' for ' . $hireResource->weekly . ' weeks';
+        }elseif ($hireResource->hourly != null)
+        {
+            $duration = ' for ' . $hireResource->hours . ' hours';
+        }
+
+        $event = new Event([
+            'narration' => 'Successfully hired ' . $hireResource->resource->user->name . $duration
+        ]);
+        $event->user()->associate(Auth::id());
+        $event->createdBy()->associate(Auth::id());
+        $event->save();
 
         return redirect()->route('dashboard');
     }
