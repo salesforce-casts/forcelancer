@@ -20,10 +20,10 @@ class CreateTransactionsTable extends Migration
             $table->string('payment_id')->nullable();
             $table->integer('resource_id')->unsigned();
             $table->integer('hirer_id')->unsigned();
-            $table->integer('created_by')->unsigned();
+            $table->foreignId('created_by')->constrained()->onDelete('cascade');
             $table->timestamps();
 
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+//            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -18,13 +18,13 @@ class CreatePortfoliosTable extends Migration
             $table->text('title');
             $table->string('video_url');
             $table->text('description');
-            $table->integer('resource_id')->unsigned();
-            $table->integer('created_by')->unsigned();
+            $table->foreignId('resource_id')->constrained()->onDelete('cascade');
+            $table->foreignId('created_by')->constrained()->onDelete('cascade');
             $table->timestamps();
 
 
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade');
+//            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+//            $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade');
         });
     }
 

@@ -16,12 +16,12 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('narration');
-            $table->foreignId('user_id');
-            $table->foreignId('created_by');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('created_by')->constrained()->onDelete('cascade');;
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+//            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+//            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

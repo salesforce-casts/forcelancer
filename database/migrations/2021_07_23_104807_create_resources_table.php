@@ -22,7 +22,7 @@ class CreateResourcesTable extends Migration
 
             // TODO: Remove this and use the relationship field
             $table->string('email')->unique();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
 
             $table->text('describe');
             $table->string('country');
@@ -33,7 +33,7 @@ class CreateResourcesTable extends Migration
             $table->integer('hourly_rate')->unsigned();
             $table->integer('weekly_rate')->unsigned();
             $table->integer('monthly_rate')->unsigned();
-            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');;
             $table->timestamps();
 
 

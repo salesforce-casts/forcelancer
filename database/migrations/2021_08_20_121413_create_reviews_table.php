@@ -18,12 +18,12 @@ class CreateReviewsTable extends Migration
             $table->string('title');
             $table->text('review');
             $table->unsignedDecimal('rating');
-            $table->unsignedInteger('created_by');
-            $table->unsignedInteger('hirer_resource_id');
+            $table->foreignId('created_by')->constrained()->onDelete('cascade');
+            $table->foreignId('hirer_resource_id')->constrained()->onDelete('cascade');
             $table->timestamps();
 
-            $table->foreign('hirer_resource_id')->references('id')->on('hirer_resource')->onDelete('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+//            $table->foreign('hirer_resource_id')->references('id')->on('hirer_resource')->onDelete('cascade');
+//            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -15,12 +15,12 @@ class CreateHirersTable extends Migration
     {
         Schema::create('hirers', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unsigned();
-            $table->integer('created_by')->unsigned();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('created_by')->constrained()->onDelete('cascade');
 
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+//            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+//            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
 
 
             $table->timestamps();
