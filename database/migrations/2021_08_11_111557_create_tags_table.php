@@ -16,7 +16,7 @@ class CreateTagsTable extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('created_by')->constrained();
+            $table->foreignId('created_by')->constrained('users');
             $table->timestamps();
 
 //            $table->foreign('created_by')->references('id')->on('users');

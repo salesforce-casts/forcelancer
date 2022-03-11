@@ -25,7 +25,7 @@ class CreateHirerResourceTable extends Migration
             $table->integer('final_charges')->default(0)->unsigned();
             $table->boolean('completed')->default(false);
             $table->foreignId('resource_id')->constrained()->onDelete('cascade');
-            $table->foreignId('created_by')->constrained()->onDelete('cascade');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
 
 //            $table->foreign('hirer_id')->references('id')->on('hirers')->onDelete('cascade');
