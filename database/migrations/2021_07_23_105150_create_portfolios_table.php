@@ -19,7 +19,7 @@ class CreatePortfoliosTable extends Migration
             $table->string('video_url');
             $table->text('description');
             $table->foreignId('resource_id')->constrained()->onDelete('cascade');
-            $table->foreignId('created_by')->constrained()->onDelete('cascade');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
 
 
