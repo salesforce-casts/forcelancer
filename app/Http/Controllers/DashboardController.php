@@ -38,7 +38,7 @@ class DashboardController extends Controller
             $oldHirerResources = HirerResource::where(['resource_id' => $resource->id, 'completed' => true])->orderBy('created_at', 'DESC')->get();
         }
 
-        $events = Event::where('user_id', Auth::id())->get();
+        $events = Event::where('user_id', Auth::id())->orderBy('created_at', 'DESC')->get();
 
         return view('dashboard',compact('hirerResources', 'oldHirerResources', 'events'));
     }
