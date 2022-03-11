@@ -23,8 +23,10 @@ class HireSuccessController extends Controller
         $orderId = $request['razorpay_order_id'];
 //        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
 //        $payment = $api->payment->fetch($paymentId);
-        $hireResourceId = HirerResource::where('order_id', $orderId)->update(['payment_id' => $paymentId]);
-        $hireResource = HirerResource::find($hireResourceId);
+        $hireResource = HirerResource::where('order_id', $orderId)->first();
+        $result = $hireResource->update(['payment_id' => $paymentId]);
+        $hireResourceUpdated = $hireResource->refresh();
+        $hireResource = HirerResource::find($hireResourceUpdated->id);
 
         $duration = '';
         if ($hireResource->monthly)
