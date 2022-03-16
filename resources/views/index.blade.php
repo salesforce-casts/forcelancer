@@ -20,6 +20,7 @@
 </head>
 
 <body class="antialiased">
+    <x-hero-section></x-hero-section>
     <div
         class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
         @if (Route::has('login'))
@@ -38,7 +39,10 @@
         <x-search></x-search>
 
     </div>
-
+    <x-page-section></x-page-section>
+    <x-faq></x-faq>
+    <x-cta></x-cta>
+    <x-footer></x-footer>
 </body>
 
 
