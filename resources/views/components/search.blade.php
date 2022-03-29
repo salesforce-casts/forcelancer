@@ -1,11 +1,17 @@
-<div class="cs-search">
-    <div class="w-52">
+<div class="cs-search py-16 pxlg:py-24">
+    <div class="relative px-4 sm:px-6 lg:px-8">
+            <div class="relative">
+                <h2 class="text-center text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">find a friend to pair program </h2>
+                <p class="mt-4 max-w-3xl mx-auto text-center text-xl text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in, accusamus quisquam.</p>
+            </div>
+        <div class="grid grid-rows-10 grid-flow-col gap-4 m-16">
+            <div class="row-span-10">
         <form @submit.prevent="handleSearch">
 
             <div>
                 <x-label for="Search" :value="__('Search')" />
 
-                <x-input id="search" class="block mt-1" type="text" name="search" v-model="search" autofocus />
+                <x-input id="search" class="block mt-1 w-48" type="text" name="search" v-model="search" autofocus />
             </div>
 
             <div>
@@ -30,7 +36,7 @@
             }
             ```
             -->
-            <div class="mt-4" style="width: 50%">
+            <div class="mt-4">
                 <x-label for="Type" :value="__('Type')" />
 
                 <fieldset>
@@ -99,7 +105,7 @@
             <div class="mt-4">
                 <x-label for="Country" :value="__('Location')" />
                 <select
-                    class="block mt-1 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    class="block mt-1 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-48"
                     @change="handleSelectedCountry">
                     <option v-for="(country, index) in countries" :value=index>
                         @{{country}}
@@ -120,17 +126,20 @@
             </div>
 
         </form>
-    </div>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class=" grid grid-cols-3 gap-4">
-                <div class="p-4 border border-red-300" v-for="(resource,index) in resources" :key="resource.id">
-                    @{{ resource.name }}
-                    @{{ resource.describe }}
+        </div>
 
-                    <a :href="resource.url"> read more ...</a>
+        <div class="col-span-2 row-span-10">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class=" grid grid-cols-3 gap-4">
+                    <div class="p-4 rounded-md shadow-lg" v-for="(resource,index) in resources" :key="resource.id">
+                        @{{ resource.name }}
+                        @{{ resource.describe }}
+
+                        <a :href="resource.url"> read more ...</a>
+                    </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </div>
