@@ -48,4 +48,10 @@ class Resource extends Model
     {
         return route('show_profile', $this->id);
     }
+
+    public function getNameAttribute($value)
+    {
+
+        return Resource::find($this->id)->user->name;
+    }
 }
