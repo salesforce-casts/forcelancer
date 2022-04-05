@@ -1,9 +1,10 @@
-<x-guest-layout>
+<x-semi-app-layout>
     <x-slot name="script">
         <script src="https://unpkg.com/vue@next"></script>
         {{-- <script src="https://js.stripe.com/v3/"></script> --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </x-slot>
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8  cs-dahsboard-main">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -383,4 +384,4 @@
             animation-delay: 2s;
         }
     </style>
-    </x-app-layout>
+    </x-semi-app-layout>

@@ -132,7 +132,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class=" grid grid-cols-3 gap-4">
                     <div class="p-4 rounded-md shadow-lg" v-for="(resource,index) in resources" :key="resource.id">
-                        @{{ resource.name }}
+                        @{{ resource.name }} ---en
                         @{{ resource.describe }}
 
                         <a :href="resource.url"> read more ...</a>
