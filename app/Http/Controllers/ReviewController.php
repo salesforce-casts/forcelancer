@@ -29,36 +29,38 @@ class ReviewController extends Controller
      */
     public function create(HirerResource $hirerResource)
     {
-        return view('reviews.new', compact('hirerResource'));
+        return view("reviews.new", compact("hirerResource"));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|max:255',
-            'review' => 'required|min:3|max:1000',
-            'engagementId' => 'required|numeric'
+            "title" => "required|max:255",
+            "review" => "required|min:3|max:1000",
+            "engagementId" => "required|numeric",
         ]);
 
-        $review = Review::where('hirer_resource_id', $validated['engagementId'])->get();
+        $review = Review::where(
+            "hirer_resource_id",
+            $validated["engagementId"]
+        )->get();
 
-        if(count($review) > 0)
-        {
+        if (count($review) > 0) {
             abort(404);
         }
 
         $user = Auth::id();
 
         $review = new Review($validated);
-//        $review->title = $validated['title'];
-//        $review->review = $validated['review'];
-        $hirerResource = HirerResource::find($validated['engagementId']);
+        //        $review->title = $validated['title'];
+        //        $review->review = $validated['review'];
+        $hirerResource = HirerResource::find($validated["engagementId"]);
 
         // TODO: Make it dynamic
         $review->rating = 4.8;
@@ -73,15 +75,17 @@ class ReviewController extends Controller
             $hirerResource->update();
 
             # TODO Insert a record into Events table
-            return redirect('/dashboard');
+            return redirect("/dashboard");
         }
-        return redirect()->back()->withErrors($validated);
+        return redirect()
+            ->back()
+            ->withErrors($validated);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -91,7 +95,7 @@ class ReviewController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @param  int  $id
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -103,8 +107,8 @@ class ReviewController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -115,7 +119,7 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

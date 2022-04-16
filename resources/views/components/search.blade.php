@@ -139,7 +139,6 @@
                         <div class="p-4 rounded-md shadow-lg" v-for="(resource,index) in resources" :key="resource.id">
                             @{{ resource.name }}
                             @{{ resource.describe }}
-
                             <a :href="resource.url"> read more ...</a>
                         </div>
                     </div>

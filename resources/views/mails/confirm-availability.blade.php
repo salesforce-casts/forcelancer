@@ -1,11 +1,10 @@
 @component('mail::message')
-# Confirmation of Availability
+    # Confirmation of Availability
 
+    @component('mail::button', ['url' => $url])
+        Yeah!
+    @endcomponent
 
-@component('mail::button', ['url' => $url])
-Yeah!
-@endcomponent
-
-Thanks,<br>
-{{ config('app.name') }}
+    Thanks,<br>
+    {{ config('app.name') }}
 @endcomponent

@@ -4,44 +4,43 @@
         {{-- <script src="https://js.stripe.com/v3/"></script> --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8  cs-dahsboard-main">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    {{--
-                    <x-button class="ml-3">
-                        {{ __('Available?') }}
-                    </x-button>--}}
+                {{--
+                <x-button class="ml-3">
+                    {{ __('Available?') }}
+                </x-button>--}}
 
 
 
-                    <!-- Display a payment form -->
-                    {{--
-                    <form id="payment-form">
-                        Hey
-                        <div id="card-element">
-                            <!--Stripe.js injects the Card Element-->
-                        </div>
+                <!-- Display a payment form -->
+                {{--
+                <form id="payment-form">
+                    Hey
+                    <div id="card-element">
+                        <!--Stripe.js injects the Card Element-->
+                    </div>
 
-                        <button id="submit">
-                            <div class="spinner hidden" id="spinner"></div>
-                            <span id="button-text">Pay now</span>
-                        </button>
-                        <p id="card-error" role="alert"></p>
-                        <p class="result-message hidden">
-                            Payment succeeded, see the result in your
-                            <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
-                        </p>
-                    </form>
-                    --}}
+                    <button id="submit">
+                        <div class="spinner hidden" id="spinner"></div>
+                        <span id="button-text">Pay now</span>
+                    </button>
+                    <p id="card-error" role="alert"></p>
+                    <p class="result-message hidden">
+                        Payment succeeded, see the result in your
+                        <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+                    </p>
+                </form>
+                --}}
 
-                    <!-- Email Address -->
+                <!-- Email Address -->
                     <div class="flex flex-nowrap">
 
-{{--                        {{ $resource->name }}--}}
+                        {{--                        {{ $resource->name }}--}}
 
                         <div class="cs-hire-me">
                             <form @submit.prevent="checkAvailability">
@@ -116,7 +115,7 @@
 
                 <!-- This example requires Tailwind CSS v2.0+ -->
                 <div class="fixed inset-0 overflow-hidden cs-hide invisible" aria-labelledby="slide-over-title"
-                    role="dialog" aria-modal="true">
+                     role="dialog" aria-modal="true">
                     <div class="absolute inset-0 overflow-hidden">
                         <!-- Background overlay, show/hide based on slide-over state. -->
                         <div class="absolute inset-0" aria-hidden="true"></div>
@@ -146,9 +145,9 @@
                                                     <span class="sr-only">Close panel</span>
                                                     <!-- Heroicon name: outline/x -->
                                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                                         viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                                              stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                                                     </svg>
                                                 </button>
                                             </div>
@@ -156,7 +155,7 @@
                                         <div class="mt-1">
                                             <p class="text-sm text-indigo-300">
                                                 Hire
-{{--                                                {{ $resource->name }} --}}
+                                                {{--                                                {{ $resource->name }} --}}
                                                 to pair program with you!
                                             </p>
                                         </div>
@@ -165,20 +164,20 @@
                                         <!-- Replace with your content -->
                                         <div class="mt-4 py-6 px-4 sm:px-6">
                                             @php
-                                            $hiring_mode = ['Hourly', 'Weekly', 'Monthly'];
+                                                $hiring_mode = ['Hourly', 'Weekly', 'Monthly'];
                                             @endphp
-{{--                                            {{ $resource->name }}--}}
+                                            {{--                                            {{ $resource->name }}--}}
                                             <x-picklist id="hiring_mode" class="block mt-1 w-full" name="hiring_mode"
-                                                :value="$hiring_mode" @change="handleChargesDisplay" required
-                                                autofocus />
+                                                        :value="$hiring_mode" @change="handleChargesDisplay" required
+                                                        autofocus />
 
 
                                         </div>
                                         <div class="mt-2 px-4 sm:px-6 cs-no-of-hours">
                                             <x-label for="no_of_hours" :value="__('No of hours')" />
                                             <x-input id="no_of_hours" class="block mt-1 w-full" type="number"
-                                                name="no_of_hours" v-model="noOfHours" @change="handleChangesCalc"
-                                                required autofocus />
+                                                     name="no_of_hours" v-model="noOfHours" @change="handleChangesCalc"
+                                                     required autofocus />
                                         </div>
 
                                         <div v-if="selectedHiringMode === 'Hourly'" class="mt-2 px-6 sm:px-6">
@@ -196,8 +195,8 @@
                                     </div>
                                     <div class="flex-shrink-0 px-4 py-4 flex justify-end">
                                         <button type="button"
-                                            class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                            @click="hide">
+                                                class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                @click="hide">
                                             Cancel
                                         </button>
                                         <button
@@ -219,34 +218,34 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
         var app = Vue.createApp({
-            data(){
+            data() {
                 return {
-                    noOfHours : 1,
-                    charges : '{{ $resource->hourly_rate }}',
-                    finalCharges : '{{ $resource->hourly_rate }}',
-                    selectedHiringMode : 'Hourly',
-                    options : {
-                        "key": "rzp_test_2EILRYIVI37u37", // Enter the Key ID generated from the Dashboard
-                        "amount": "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                        "currency": "INR",
-                        "name": "{{ env('APP_NAME') }}",
-                        "description": "Test Transaction",
-                        "image": "https://example.com/your_logo",
-                        "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                        "callback_url": "{{ route('hire.success') }}",
-                        "prefill": {
-                            "name": "{{ $resource->name }}",
-                            "email": "{{ $resource->email }}",
-                            "contact": "7032650325"
+                    noOfHours: 1,
+                    charges: '{{ $resource->hourly_rate }}',
+                    finalCharges: '{{ $resource->hourly_rate }}',
+                    selectedHiringMode: 'Hourly',
+                    options: {
+                        'key': 'rzp_test_2EILRYIVI37u37', // Enter the Key ID generated from the Dashboard
+                        'amount': '50000', // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                        'currency': 'INR',
+                        'name': "{{ env('APP_NAME') }}",
+                        'description': 'Test Transaction',
+                        'image': 'https://example.com/your_logo',
+                        'order_id': '', //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                        'callback_url': "{{ route('hire.success') }}",
+                        'prefill': {
+                            'name': "{{ $resource->name }}",
+                            'email': "{{ $resource->email }}",
+                            'contact': '7032650325'
                         },
-                        "notes": {
-                            "address": "Razorpay Corporate Office"
+                        'notes': {
+                            'address': 'Razorpay Corporate Office'
                         },
-                        "theme": {
-                            "color": "#3399cc"
+                        'theme': {
+                            'color': '#3399cc'
                         }
                     }
-                }
+                };
             },
             methods: {
                 show(event) {
@@ -254,45 +253,45 @@
                     document.querySelector('.cs-rollover').classList.add('transform', 'transition', 'ease-in', 'duration-500', 'sm:duration-700');
                 },
 
-                hide(event){
+                hide(event) {
                     document.querySelector('.cs-hide').classList.add('invisible');
                     document.querySelector('.cs-rollover').classList.remove('transform', 'transition', 'ease-in', 'duration-500', 'sm:duration-700');
                 },
-                checkAvailability(event){
+                checkAvailability(event) {
                     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                     fetch("{{ route('check.availability') }}", {
-                        method: "POST",
+                        method: 'POST',
                         headers: {
-                            "X-CSRF-Token": token,
-                            "Content-Type": "application/x-www-form-urlencoded"
+                            'X-CSRF-Token': token,
+                            'Content-Type': 'application/x-www-form-urlencoded'
                         },
                         body: JSON.stringify('{{$resource->id}}')
                     })
                         .then((result) => {
                             console.log(result);
                         })
-                        .catch( (error) => {
+                        .catch((error) => {
                             console.log(error);
-                        })
+                        });
                 },
-                handleChargesDisplay(event){
+                handleChargesDisplay(event) {
                     let value = parseInt(event.target.value);
                     // let selectedCharges = '{{ $resource->hourly_rate }}';
                     let selectedCharges;
-                    if(value === 0){
+                    if (value === 0) {
                         selectedCharges = '{{ $resource->hourly_rate }}';
                         document.querySelector('.cs-no-of-hours').classList.toggle('invisible');
                         // this.selectedHiringMode = this.selectedHiringMode ? this.selectedHiringMode : 'Hourly';
                         this.selectedHiringMode = 'Hourly';
 
-                    }else if(value === 1){
+                    } else if (value === 1) {
                         selectedCharges = '{{ $resource->weekly_rate }}';
                         document.querySelector('.cs-no-of-hours').classList.add('invisible');
                         this.selectedHiringMode = 'Weekly';
 
 
-                    }else if(value === 2){
+                    } else if (value === 2) {
                         selectedCharges = '{{ $resource->monthly_rate }}';
                         document.querySelector('.cs-no-of-hours').classList.add('invisible');
                         this.selectedHiringMode = 'Monthly';
@@ -309,47 +308,47 @@
                     console.log(selectedCharges);
 
                 },
-                handleChangesCalc(){
+                handleChangesCalc() {
                     console.log(this.charges);
                     console.log(this.noOfHours);
                     this.finalCharges = this.charges * this.noOfHours;
                 },
-                handleHire(event){
+                handleHire(event) {
                     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                     const resourceDetails = {
-                        'resource_id' : '{{ $resource->id }}',
-                        'selected_hiring_mode' : this.selectedHiringMode,
-                        'final_charges' : this.finalCharges,
-                        'no_of_hours' : (this.selectedHiringMode === 'Hourly') ? this.noOfHours : null
-                    }
+                        'resource_id': '{{ $resource->id }}',
+                        'selected_hiring_mode': this.selectedHiringMode,
+                        'final_charges': this.finalCharges,
+                        'no_of_hours': (this.selectedHiringMode === 'Hourly') ? this.noOfHours : null
+                    };
                     console.log("{{ route('hire') }}");
                     fetch("{{ route('hire') }}", {
-                        method: "POST",
+                        method: 'POST',
                         headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-Token": token,
+                            'Content-Type': 'application/json',
+                            'X-CSRF-Token': token
                         },
                         body: JSON.stringify({ resourceDetails })
                     })
-                    .then((result) => {
-                        console.log(JSON.stringify(result));
-                        return result.json();
-                    })
-                    .then((result) => {
-                        console.log(result);
-                        this.options.order_id = result.order_id;
-                        var rzp1 = new Razorpay(this.options);
-                        rzp1.open();
-                    })
-                    .catch( (error) => {
-                        console.log(error);
-                    });
+                        .then((result) => {
+                            console.log(JSON.stringify(result));
+                            return result.json();
+                        })
+                        .then((result) => {
+                            console.log(result);
+                            this.options.order_id = result.order_id;
+                            var rzp1 = new Razorpay(this.options);
+                            rzp1.open();
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
                 }
 
             }
 
         });
-        const vm  = app.mount('.cs-dahsboard-main');
+        const vm = app.mount('.cs-dahsboard-main');
     </script>
     <style>
         /* button {
@@ -384,4 +383,4 @@
             animation-delay: 2s;
         }
     </style>
-    </x-semi-app-layout>
+</x-semi-app-layout>

@@ -19,10 +19,11 @@
                 @else
                     <strong class="rounded-full bg-red-100 px-2">Completed</strong>
                 @endif
-                    You have hired
-                    <a href="{{ route('show_profile', $hirerResource->resource->id) }}" class="underline underline-offset-4">
-                        {{ $hirerResource->resource->user->name }}
-                    </a>
+                You have hired
+                <a href="{{ route('show_profile', $hirerResource->resource->id) }}"
+                   class="underline underline-offset-4">
+                    {{ $hirerResource->resource->user->name }}
+                </a>
                 to Pair Programming with you for
                 @if($hirerResource->monthly)
                     1 month.
@@ -32,7 +33,7 @@
                     {{ $hirerResource->hours  }} hours.
                 @endif
 
-            <span class="text-sm text-gray-400">  {{$hirerResource->created_at->diffForHumans()}} </span>
+                <span class="text-sm text-gray-400">  {{$hirerResource->created_at->diffForHumans()}} </span>
             </p>
         @endforeach
     @endif

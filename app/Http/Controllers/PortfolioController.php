@@ -19,7 +19,7 @@ class PortfolioController extends Controller
      */
     public function index()
     {
-        return view('portfolio.index');
+        return view("portfolio.index");
     }
 
     /**
@@ -35,29 +35,29 @@ class PortfolioController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $projects = $request->get('proj');
+        $projects = $request->get("proj");
 
-        $user = User::where('email', '=', Auth::user()->email)->first();
-        $resource = Resource::where('user_id', '=', $user->id)->first();
+        $user = User::where("email", "=", Auth::user()->email)->first();
+        $resource = Resource::where("user_id", "=", $user->id)->first();
 
         $newProject = [];
         foreach ($projects as $project) {
-            $p['title'] = $project['title'];
-            $p['description'] = $project['description'];
-            $p['video_url'] = $project['video_url'];
-            $p['created_by'] = Auth::id();
-            $p['resource_id'] = $resource->id;
+            $p["title"] = $project["title"];
+            $p["description"] = $project["description"];
+            $p["video_url"] = $project["video_url"];
+            $p["created_by"] = Auth::id();
+            $p["resource_id"] = $resource->id;
             array_push($newProject, $p);
         }
-        $result = DB::table('portfolios')->insert($newProject);
+        $result = DB::table("portfolios")->insert($newProject);
 
         $event = new Event([
-            'narration' => 'Created portfolios',
+            "narration" => "Created portfolios",
         ]);
         $event->user()->associate(Auth::id());
         $event->createdBy()->associate(Auth::id());
@@ -68,7 +68,7 @@ class PortfolioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param \App\Models\Portfolio $portfolio
      * @return \Illuminate\Http\Response
      */
     public function show(Portfolio $portfolio)
@@ -79,7 +79,7 @@ class PortfolioController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param \App\Models\Portfolio $portfolio
      * @return \Illuminate\Http\Response
      */
     public function edit(Portfolio $portfolio)
@@ -90,8 +90,8 @@ class PortfolioController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Portfolio $portfolio
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Portfolio $portfolio)
@@ -102,7 +102,7 @@ class PortfolioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param \App\Models\Portfolio $portfolio
      * @return \Illuminate\Http\Response
      */
     public function destroy(Portfolio $portfolio)

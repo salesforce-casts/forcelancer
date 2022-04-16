@@ -25,7 +25,7 @@ class ResourceController extends Controller
     public function index()
     {
         // $resources = Resource::limit(25)->orderBy("created_at", "desc")->get();
-        return view('index');
+        return view("index");
     }
 
     /**
@@ -36,68 +36,67 @@ class ResourceController extends Controller
     public function create()
     {
         $user = [
-            'usr' => Auth::user()->name,
-            'email' => Auth::user()->email
+            "usr" => Auth::user()->name,
+            "email" => Auth::user()->email,
         ];
 
+        $countries = Country::pluck("name", "id")->all();
 
-        $countries = Country::pluck('name', 'id')->all();
-
-        return view('resources.new', compact('user', 'countries'));
+        return view("resources.new", compact("user", "countries"));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|unique:resources|email:rfc,dns',
-            'describe' => 'required|min:3|max:1000',
-            'country' => 'required',
-            'skills' => 'required',
-            'hourly_rate' => 'required|numeric|min:1|max:500',
-            'weekly_rate' => 'required|numeric|min:1|max:500',
-            'monthly_rate' => 'required|numeric|min:1|max:500',
+            "name" => "required|max:255",
+            "email" => "required|unique:resources|email:rfc,dns",
+            "describe" => "required|min:3|max:1000",
+            "country" => "required",
+            "skills" => "required",
+            "hourly_rate" => "required|numeric|min:1|max:500",
+            "weekly_rate" => "required|numeric|min:1|max:500",
+            "monthly_rate" => "required|numeric|min:1|max:500",
         ]);
 
         $user = User::find(Auth::id());
 
-        if(!$user->resource) {
-
+        if (!$user->resource) {
             // TODO: Refactor this
             // TODO: Populated user_id with logged in id, needs testing.
-            $resource = new Resource;
+            $resource = new Resource();
 
             // $resource->name = $request->input('name');
-            $resource->email = $request->input('email');
-            $resource->describe = $request->input('describe');
-            $resource->country = $request->input('country');
-            $resource->skills = $request->input('skills');
-            $resource->hourly_rate = $request->input('hourly_rate');
-            $resource->weekly_rate = $request->input('weekly_rate');
-            $resource->monthly_rate = $request->input('monthly_rate');
+            $resource->email = $request->input("email");
+            $resource->describe = $request->input("describe");
+            $resource->country = $request->input("country");
+            $resource->skills = $request->input("skills");
+            $resource->hourly_rate = $request->input("hourly_rate");
+            $resource->weekly_rate = $request->input("weekly_rate");
+            $resource->monthly_rate = $request->input("monthly_rate");
             $resource->user_id = Auth::id();
 
             $saved = $user->owner()->save($resource);
 
             if ($saved) {
-
                 $event = new Event([
-                    'narration' => 'Registered your profile',
+                    "narration" => "Registered your profile",
                 ]);
                 $event->user()->associate(Auth::id());
                 $event->createdBy()->associate(Auth::id());
                 $event->save();
 
-                return redirect('dashboard');
+                return redirect("dashboard");
             }
 
-            return redirect()->back()->withErrors($validated);
+            return redirect()
+                ->back()
+                ->withErrors($validated);
         }
         abort(404);
     }
@@ -105,21 +104,27 @@ class ResourceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Resource  $resource
+     * @param \App\Models\Resource $resource
      * @return \Illuminate\Http\Response
      */
     public function show(Resource $resource)
     {
-        $portfolios = Portfolio::where('resource_id', $resource->id)->get();
-        $hirerResources = HirerResource::where('resource_id', $resource->id)->pluck('id');
-        $reviews = Review::whereIn('hirer_resource_id', $hirerResources)->get();
-        return view('resources.show', compact('resource', 'portfolios', 'reviews'));
+        $portfolios = Portfolio::where("resource_id", $resource->id)->get();
+        $hirerResources = HirerResource::where(
+            "resource_id",
+            $resource->id
+        )->pluck("id");
+        $reviews = Review::whereIn("hirer_resource_id", $hirerResources)->get();
+        return view(
+            "resources.show",
+            compact("resource", "portfolios", "reviews")
+        );
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Resource  $resource
+     * @param \App\Models\Resource $resource
      * @return \Illuminate\Http\Response
      */
     public function edit(Resource $resource)
@@ -130,21 +135,21 @@ class ResourceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Resource  $resource
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Resource $resource
      * @return \Illuminate\Http\Response
      */
     public function checkout(Request $request)
     {
-        Stripe::setApiKey('sk_test_Ibzmh9GR069jLfNqQ9zidJ3g');
+        Stripe::setApiKey("sk_test_Ibzmh9GR069jLfNqQ9zidJ3g");
 
         $paymentIntent = PaymentIntent::create([
-            'amount' => '1000',
-            'currency' => 'inr',
+            "amount" => "1000",
+            "currency" => "inr",
         ]);
 
         $output = [
-            'clientSecret' => $paymentIntent->client_secret,
+            "clientSecret" => $paymentIntent->client_secret,
         ];
 
         return response()->json($output);
@@ -153,7 +158,7 @@ class ResourceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Resource  $resource
+     * @param \App\Models\Resource $resource
      * @return \Illuminate\Http\Response
      */
     public function destroy(Resource $resource)
