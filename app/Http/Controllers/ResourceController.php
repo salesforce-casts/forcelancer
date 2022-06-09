@@ -77,13 +77,12 @@ class ResourceController extends Controller
 
         $user = User::find(Auth::id());
 
-        $narration = "Updated your profile";
-
         if (!$user->resource) {
             $resource = new Resource();
             $narration = "Registered your profile";
         } else {
             $resource = $user->resource;
+            $narration = "Updated your profile";
         }
 
         $resource->email = $request->input("email");

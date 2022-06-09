@@ -21,7 +21,7 @@
 
 
                     <form method="POST" action="{{ route('create_profile') }}">
-                        @if(!$resource_registered)
+                        @if(!$resourceRegistered)
                             <div class="mt-4">
                                 <a href="{{ route('create_profile') }}" class="text-sm text-gray-700 underline">
 
