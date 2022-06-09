@@ -36,6 +36,7 @@ class SearchController extends Controller
 
         $type = $request->input("type");
         $range = $request->input("range");
+
         if ($searchText == null && $country == null && $tags == null) {
             $resources = Resource::limit(25)
                 ->orderBy("created_at", "desc")
@@ -58,13 +59,6 @@ class SearchController extends Controller
                 $query->orWhere("country", "=", $country);
             }
             if ($type != null && $range != null) {
-                if ($type == "Monthly") {
-                    $type = "monthly_rate";
-                } elseif ($type == "Weekly") {
-                    $type = "weekly_rate";
-                } elseif ($type == "Hourly") {
-                    $type = "hourly_rate";
-                }
                 $query->orWhere($type, "<", $range);
             }
 
