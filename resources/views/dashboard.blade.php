@@ -21,13 +21,14 @@
 
 
                     <form method="POST" action="{{ route('create_profile') }}">
+                        @if(!$resource_registered)
+                            <div class="mt-4">
+                                <a href="{{ route('create_profile') }}" class="text-sm text-gray-700 underline">
 
-                        <div class="mt-4">
-                            <a href="{{ route('create_profile') }}" class="text-sm text-gray-700 underline">
-
-                                {{ __('Register Your Profile') }}
-                            </a>
-                        </div>
+                                    {{ __('Register Your Profile') }}
+                                </a>
+                            </div>
+                        @endif
                         <div class="mt-4">
                             <a href="{{ route('portfolio_list') }}" class="text-sm text-gray-700 underline">
 

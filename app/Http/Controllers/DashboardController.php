@@ -60,9 +60,13 @@ class DashboardController extends Controller
             ->orderBy("created_at", "DESC")
             ->get();
 
+        $resource_registered = true;
+
+        if(Auth::user()->user_type === 'resource' && !Auth::user()->resource) $resource_registered = false;
+
         return view(
             "dashboard",
-            compact("hirerResources", "oldHirerResources", "events")
+            compact("hirerResources", "oldHirerResources", "events", "resource_registered")
         );
     }
 }

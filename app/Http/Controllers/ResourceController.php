@@ -35,11 +35,19 @@ class ResourceController extends Controller
      */
     public function create()
     {
+        $resource = Resource::where('user_id', Auth::id())->first();
+
         $user = [
             "usr" => Auth::user()->name,
             "email" => Auth::user()->email,
+            "describe" => ($resource) ? $resource->describe : '',
+            "country" => ($resource) ? $resource->country : '',
+            "skills" => ($resource) ? $resource->skills : '',
+            "hourly_rate" => ($resource) ? $resource->hourly_rate : '',
+            "weekly_rate" => ($resource) ? $resource->weekly_rate : '',
+            "monthly_rate" => ($resource) ? $resource->monthly_rate : '',
         ];
-
+        
         $countries = Country::pluck("name", "id")->all();
 
         return view("resources.new", compact("user", "countries"));
@@ -52,13 +60,16 @@ class ResourceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {        
+        $resources_id = null;
+        if(Auth::user()->resource) $resources_id = Auth::user()->resource->id;
+
         $validated = $request->validate([
             "name" => "required|max:255",
-            "email" => "required|unique:resources|email:rfc,dns",
+            "email" => "required|unique:resources,email,".$resources_id."|email:rfc,dns",
             "describe" => "required|min:3|max:1000",
-            "country" => "required",
-            "skills" => "required",
+            "country" => "required|string",
+            "skills" => "required|string",
             "hourly_rate" => "required|numeric|min:1|max:500",
             "weekly_rate" => "required|numeric|min:1|max:500",
             "monthly_rate" => "required|numeric|min:1|max:500",
@@ -66,39 +77,41 @@ class ResourceController extends Controller
 
         $user = User::find(Auth::id());
 
+        $narration = "Updated your profile";
+
         if (!$user->resource) {
-            // TODO: Refactor this
-            // TODO: Populated user_id with logged in id, needs testing.
             $resource = new Resource();
-
-            // $resource->name = $request->input('name');
-            $resource->email = $request->input("email");
-            $resource->describe = $request->input("describe");
-            $resource->country = $request->input("country");
-            $resource->skills = $request->input("skills");
-            $resource->hourly_rate = $request->input("hourly_rate");
-            $resource->weekly_rate = $request->input("weekly_rate");
-            $resource->monthly_rate = $request->input("monthly_rate");
-            $resource->user_id = Auth::id();
-
-            $saved = $user->owner()->save($resource);
-
-            if ($saved) {
-                $event = new Event([
-                    "narration" => "Registered your profile",
-                ]);
-                $event->user()->associate(Auth::id());
-                $event->createdBy()->associate(Auth::id());
-                $event->save();
-
-                return redirect("dashboard");
-            }
-
-            return redirect()
-                ->back()
-                ->withErrors($validated);
+            $narration = "Registered your profile";
+        } else {
+            $resource = $user->resource;
         }
-        abort(404);
+
+        $resource->email = $request->input("email");
+        $resource->describe = $request->input("describe");
+        $resource->country = $request->input("country");
+        $resource->skills = $request->input("skills");
+        $resource->hourly_rate = $request->input("hourly_rate");
+        $resource->weekly_rate = $request->input("weekly_rate");
+        $resource->monthly_rate = $request->input("monthly_rate");
+        $resource->user_id = Auth::id();
+
+        $saved = $user->owner()->save($resource);
+
+        if ($saved) {
+            $event = new Event([
+                "narration" => $narration,
+            ]);
+
+            $event->user()->associate(Auth::id());
+            $event->createdBy()->associate(Auth::id());
+            $event->save();
+
+            return redirect("dashboard");
+        }
+
+        return redirect()
+            ->back()
+            ->withErrors($validated);
     }
 
     /**
