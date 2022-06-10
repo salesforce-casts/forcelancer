@@ -59,6 +59,13 @@ class SearchController extends Controller
                 $query->orWhere("country", "=", $country);
             }
             if ($type != null && $range != null) {
+                if ($type == "Monthly") {
+                    $type = "monthly_rate";
+                } elseif ($type == "Weekly") {
+                    $type = "weekly_rate";
+                } elseif ($type == "Hourly") {
+                    $type = "hourly_rate";
+                }
                 $query->orWhere($type, "<", $range);
             }
 
