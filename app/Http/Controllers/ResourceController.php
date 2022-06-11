@@ -35,22 +35,22 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        $resourceDetails = Resource::where('user_id', Auth::id())->first();
+        $resource = Resource::where('user_id', Auth::id())->first();
 
-        $user = [
+        $resourceDetails = [
             "usr" => Auth::user()->name,
             "email" => Auth::user()->email,
-            "describe" => ($resourceDetails) ? $resourceDetails->describe : '',
-            "country" => ($resourceDetails) ? $resourceDetails->country : '',
-            "skills" => ($resourceDetails) ? $resourceDetails->skills : '',
-            "hourly_rate" => ($resourceDetails) ? $resourceDetails->hourly_rate : '',
-            "weekly_rate" => ($resourceDetails) ? $resourceDetails->weekly_rate : '',
-            "monthly_rate" => ($resourceDetails) ? $resourceDetails->monthly_rate : '',
+            "describe" => ($resource) ? $resource->describe : '',
+            "country" => ($resource) ? $resource->country : '',
+            "skills" => ($resource) ? $resource->skills : '',
+            "hourly_rate" => ($resource) ? $resource->hourly_rate : '',
+            "weekly_rate" => ($resource) ? $resource->weekly_rate : '',
+            "monthly_rate" => ($resource) ? $resource->monthly_rate : '',
         ];
-        
+
         $countries = Country::pluck("name", "id")->all();
 
-        return view("resources.new", compact("user", "countries"));
+        return view("resources.new", compact("resourceDetails", "countries"));
     }
 
     /**
@@ -60,7 +60,7 @@ class ResourceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
+    {
         $resourceId = null;
         if(Auth::user()->resource) $resourceId = Auth::user()->resource->id;
 
