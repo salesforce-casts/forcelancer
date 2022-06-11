@@ -259,14 +259,16 @@
                 },
                 checkAvailability(event) {
                     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
+                    const resourceInfo = {
+                        'resource_id': '{{$resource->id}}'
+                    };
                     fetch("{{ route('check.availability') }}", {
                         method: 'POST',
                         headers: {
                             'X-CSRF-Token': token,
-                            'Content-Type': 'application/x-www-form-urlencoded'
+                            'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify('{{$resource->id}}')
+                        body: JSON.stringify({ resourceInfo })
                     })
                         .then((result) => {
                             console.log(result);

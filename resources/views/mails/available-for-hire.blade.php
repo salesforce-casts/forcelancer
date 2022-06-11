@@ -1,10 +1,10 @@
 @component('mail::message')
-    # Are you available to Pair Program?
+# Are you available to Pair Program?
 
-    @component('mail::button', ['url' => $signedUrl])
-        Yeah!
-    @endcomponent
+@component('mail::button', ['url' => $signedUrl])
+Yeah!
+@endcomponent
 
-    Thanks,<br>
-    {{ config('app.name') }}
+Thanks,
+{{ config('app.name') }}
 @endcomponent
