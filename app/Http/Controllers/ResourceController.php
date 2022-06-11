@@ -35,17 +35,17 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        $resource = Resource::where('user_id', Auth::id())->first();
+        $resourceDetails = Resource::where('user_id', Auth::id())->first();
 
         $user = [
             "usr" => Auth::user()->name,
             "email" => Auth::user()->email,
-            "describe" => ($resource) ? $resource->describe : '',
-            "country" => ($resource) ? $resource->country : '',
-            "skills" => ($resource) ? $resource->skills : '',
-            "hourly_rate" => ($resource) ? $resource->hourly_rate : '',
-            "weekly_rate" => ($resource) ? $resource->weekly_rate : '',
-            "monthly_rate" => ($resource) ? $resource->monthly_rate : '',
+            "describe" => ($resourceDetails) ? $resourceDetails->describe : '',
+            "country" => ($resourceDetails) ? $resourceDetails->country : '',
+            "skills" => ($resourceDetails) ? $resourceDetails->skills : '',
+            "hourly_rate" => ($resourceDetails) ? $resourceDetails->hourly_rate : '',
+            "weekly_rate" => ($resourceDetails) ? $resourceDetails->weekly_rate : '',
+            "monthly_rate" => ($resourceDetails) ? $resourceDetails->monthly_rate : '',
         ];
         
         $countries = Country::pluck("name", "id")->all();
@@ -61,12 +61,12 @@ class ResourceController extends Controller
      */
     public function store(Request $request)
     {        
-        $resources_id = null;
-        if(Auth::user()->resource) $resources_id = Auth::user()->resource->id;
+        $resourceId = null;
+        if(Auth::user()->resource) $resourceId = Auth::user()->resource->id;
 
         $validated = $request->validate([
             "name" => "required|max:255",
-            "email" => "required|unique:resources,email,".$resources_id."|email:rfc,dns",
+            "email" => "required|unique:resources,email,".$resourceId."|email:rfc,dns",
             "describe" => "required|min:3|max:1000",
             "country" => "required|string",
             "skills" => "required|string",
