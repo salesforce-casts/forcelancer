@@ -37,7 +37,7 @@ class ResourceController extends Controller
     {
         $resource = Resource::where('user_id', Auth::id())->first();
 
-        $user = [
+        $resourceDetails = [
             "usr" => Auth::user()->name,
             "email" => Auth::user()->email,
             "describe" => ($resource) ? $resource->describe : '',
@@ -47,10 +47,10 @@ class ResourceController extends Controller
             "weekly_rate" => ($resource) ? $resource->weekly_rate : '',
             "monthly_rate" => ($resource) ? $resource->monthly_rate : '',
         ];
-        
+
         $countries = Country::pluck("name", "id")->all();
 
-        return view("resources.new", compact("user", "countries"));
+        return view("resources.new", compact("resourceDetails", "countries"));
     }
 
     /**
@@ -60,13 +60,13 @@ class ResourceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {        
-        $resources_id = null;
-        if(Auth::user()->resource) $resources_id = Auth::user()->resource->id;
+    {
+        $resourceId = null;
+        if(Auth::user()->resource) $resourceId = Auth::user()->resource->id;
 
         $validated = $request->validate([
             "name" => "required|max:255",
-            "email" => "required|unique:resources,email,".$resources_id."|email:rfc,dns",
+            "email" => "required|unique:resources,email,".$resourceId."|email:rfc,dns",
             "describe" => "required|min:3|max:1000",
             "country" => "required|string",
             "skills" => "required|string",
