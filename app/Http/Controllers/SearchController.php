@@ -36,6 +36,7 @@ class SearchController extends Controller
 
         $type = $request->input("type");
         $range = $request->input("range");
+
         if ($searchText == null && $country == null && $tags == null) {
             $resources = Resource::limit(25)
                 ->orderBy("created_at", "desc")
