@@ -29,34 +29,34 @@
                             <x-label for="name" :value="__('Name')" />
 
                             <x-input id="name" class="block mt-1 w-full" type="text" name="name"
-                                     :value="old('name') ?? $resourcDetails['usr']" required autofocus />
+                                     :value="old('name') ?? $resourceDetails['usr']" required autofocus />
                         </div>
                         <!-- Email Address -->
                         <div class="mt-4">
                             <x-label for="email" :value="__('Email')" />
 
                             <x-input id="email" class="block mt-1 w-full" type="email" name="email"
-                                     :value="old('email') ?? $resourcDetails['email']" required autofocus />
+                                     :value="old('email') ?? $resourceDetails['email']" required autofocus />
                         </div>
                         <!-- Email Address -->
                         <div class="mt-4">
                             <x-label for="describe" :value="__('Describe Yourself')" />
 
                             <x-text-area id="describe" class="block mt-1 w-full" type="text" name="describe"
-                                         :value="old('describe',  $resourcDetails['describe'])" required autofocus />
+                                         :value="old('describe',  $resourceDetails['describe'])" required autofocus />
                         </div>
                         <!-- Email Address -->
                         <div class="mt-4">
                             <x-label for="Country" :value="__('Location')" />
 
                             <x-picklist id="country" class="block mt-1 w-full" name="country"
-                                        :selected="old('country',  $resourcDetails['country']) ?? '' " :value="$countries" required autofocus />
+                                        :selected="old('country',  $resourceDetails['country']) ?? '' " :value="$countries" required autofocus />
                         </div>
                         <div class="mt-4">
                             <x-label for="Skills" :value="__('Skills')" />
 
                             <x-input id="skills" class="block mt-1 w-full" type="text" name="skills"
-                                     :value="old('skills',  $resourcDetails['skills'])" required autofocus />
+                                     :value="old('skills',  $resourceDetails['skills'])" required autofocus />
                         </div>
 
                         <!-- Email Address -->
@@ -64,21 +64,21 @@
                             <x-label for="Hourly Rate" :value="__('Hourly Rate')" />
 
                             <x-input id="hourly_rate" class="block mt-1 w-full" type="number" name="hourly_rate"
-                                     :value="old('hourly_rate',  $resourcDetails['hourly_rate']) ?? 0" autofocus />
+                                     :value="old('hourly_rate',  $resourceDetails['hourly_rate']) ?? 0" autofocus />
                         </div>
                         <!-- Email Address -->
                         <div class="mt-4">
                             <x-label for="Weekly Rate" :value="__('Weekly Rate')" />
 
                             <x-input id="weekly_rate" class="block mt-1 w-full" type="number" name="weekly_rate"
-                                     :value="old('weekly_rate',  $resourcDetails['weekly_rate']) ?? 0" autofocus />
+                                     :value="old('weekly_rate',  $resourceDetails['weekly_rate']) ?? 0" autofocus />
                         </div>
                         <!-- Email Address -->
                         <div class="mt-4">
                             <x-label for="Monthly Rate" :value="__('Monthly Rate')" />
 
                             <x-input id="monthly_rate" class="block mt-1 w-full" type="number" name="monthly_rate"
-                                     :value="old('monthly_rate',  $resourcDetails['monthly_rate']) ?? 0" autofocus />
+                                     :value="old('monthly_rate',  $resourceDetails['monthly_rate']) ?? 0" autofocus />
                         </div>
 
                         <x-button class="mt-4">
