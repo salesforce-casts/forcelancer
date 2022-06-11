@@ -29,6 +29,8 @@ class ReviewController extends Controller
      */
     public function create(HirerResource $hirerResource)
     {
+        $hirerResource->load('resource');
+
         return view("reviews.new", compact("hirerResource"));
     }
 
