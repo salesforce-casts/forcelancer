@@ -333,7 +333,9 @@
                         body: JSON.stringify({ resourceDetails })
                     })
                         .then((result) => {
-                            console.log(JSON.stringify(result));
+                            if (result.url === `${location.protocol}//${location.host}/login`) {
+                                window.location.href = result.url;
+                            }
                             return result.json();
                         })
                         .then((result) => {

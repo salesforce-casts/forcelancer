@@ -71,7 +71,7 @@ Route::get("/available/{resource}", function (Resource $resource) {
     // TODO: Consider not using auth middleware
     // TODO: Get the email id dynamically
     Mail::to("teja@salesforcecasts.com")->send(
-        new ConfirmAvailabilityNotification()
+        new ConfirmAvailabilityNotification($resource)
     );
     return view("dashboard")->with(
         "status",
@@ -79,7 +79,7 @@ Route::get("/available/{resource}", function (Resource $resource) {
     );
 })
     ->name("confirm-available")
-    ->middleware("signed");
+    ->middleware(["auth", "signed"]);
 
 // Route::post('/profile', [ResourceController::class, 'checkout'])
 //     ->name('update_profile');
