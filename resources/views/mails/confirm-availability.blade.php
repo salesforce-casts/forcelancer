@@ -1,10 +1,14 @@
 @component('mail::message')
-    # Confirmation of Availability
+hey there!
 
-    @component('mail::button', ['url' => $url])
-        Yeah!
-    @endcomponent
+sure i do have some bandwidth to look into this.
 
-    Thanks,<br>
-    {{ config('app.name') }}
+please go ahead and hire me.
+
+@component('mail::button', ['url' => 'http://localhost:8000/profile/show/' . $resourceId])
+    Yeah!
+@endcomponent
+
+Thanks,
+{{ config('app.name') }}
 @endcomponent

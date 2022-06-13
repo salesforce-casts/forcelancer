@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use \App\Models\Resource;
+use App\Models\Resource;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\URL;
 class AvailableForHireNotification extends Mailable
 {
     use Queueable, SerializesModels;
+
     public $resource;
+
     /**
      * Create a new message instance.
      *
@@ -33,19 +35,17 @@ class AvailableForHireNotification extends Mailable
     {
         // $signedUrl = URL::signedRoute('confirm-available', ['resource' => $this->resource->id]);
         $signedUrl = URL::temporarySignedRoute(
-            'confirm-available',
+            "confirm-available",
             now()->addMinutes(10),
-            ['resource' => $this->resource->id]
+            ["resource" => $this->resource->id]
         );
-        return $this->from(env('MAIL_FROM_ADDRESS'))
-            ->subject('Are you available to Hire?')
-            ->markdown(
-                'mails.available-for-hire',
-                [
-                    'url' => 'https://www.salesforcecasts.com',
-                    'rId' => $this->resource->id,
-                    'signedUrl' => $signedUrl
-                ]
-            );
+        return $this->from(env("MAIL_FROM_ADDRESS"))
+            ->subject("Are you available to Hire?")
+            ->markdown("mails.available-for-hire", [
+                "url" => "https://www.salesforcecasts.com",
+                "resourceId" => $this->resource->id,
+                "resourceName" => $this->resource->user->name,
+                "signedUrl" => $signedUrl,
+            ]);
     }
 }

@@ -15,8 +15,8 @@ use App\Mail\AvailableForHireNotification;
 use App\Mail\ConfirmAvailabilityNotification;
 use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Http\Request;
 use App\Models\Resource;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -29,62 +29,82 @@ use App\Models\Resource;
 |
 */
 
-Route::get('/', [ResourceController::class, 'index'])
-    ->name('home');
+Route::get("/", [ResourceController::class, "index"])->name("home");
 
-Route::get('/profile', [ResourceController::class, 'create'])
-    ->middleware('auth')
-    ->name('create_profile');
+Route::get("/profile", [ResourceController::class, "create"])
+    ->middleware("auth")
+    ->name("create_profile");
 
+Route::post("/profile", [ResourceController::class, "store"])
+    ->middleware("auth")
+    ->name("store_profile");
 
-Route::post('/profile', [ResourceController::class, 'store'])
-    ->middleware('auth')
-    ->name('store_profile');
-
-Route::get('/portfolio', [PortfolioController::class, 'index'])
-    ->middleware('auth')
-    ->name('portfolio_list');
-Route::post('/portfolio', [PortfolioController::class, 'store'])
-    ->middleware('auth')
-    ->name('portfolio_store');
+Route::get("/portfolio", [PortfolioController::class, "index"])
+    ->middleware("auth")
+    ->name("portfolio_list");
+Route::post("/portfolio", [PortfolioController::class, "store"])
+    ->middleware("auth")
+    ->name("portfolio_store");
 
 // move the business logic to Model
-Route::post('/check-availability', function () {
+Route::post("/check-availability", function (Request $request) {
     // $projects = $request->get('proj');
     // $resource = Resource::where('email', Auth::user()->email)->first();
+
+    $resourceInfo = $request->input("resourceInfo");
+    $resourceId = $resourceInfo["resource_id"];
 
     // TODO: Make the logged in resource dynamic
     // TODO: Pass in the enquired user_id too,
     // would need it when responding.
-    $resource = Resource::find(11);
+    $resource = Resource::find($resourceId);
+    Mail::to($resource->user->email)->send(
+        new AvailableForHireNotification($resource)
+    );
+    return "A message has been sent";
+})
+    ->name("check.availability")
+    ->middleware(["auth"]);
 
-    Mail::to($resource->email)->send(new AvailableForHireNotification($resource));
-    return 'A message has been sent';
-})->name('check.availability')->middleware(['auth']);
-
-Route::get('/available/{resource}', function (Resource $resource) {
-
+Route::get("/available/{resource}", function (Resource $resource) {
     // TODO: Change this to a separate view
     // TODO: Consider not using auth middleware
     // TODO: Get the email id dynamically
-    Mail::to('teja@salesforcecasts.com')->send(new ConfirmAvailabilityNotification());
-    return view('dashboard')->with('status', 'Notified about your availability');
-})->name('confirm-available')->middleware(('signed'));
+    Mail::to("teja@salesforcecasts.com")->send(
+        new ConfirmAvailabilityNotification($resource)
+    );
+    return redirect()->route("dashboard");
+})
+    ->name("confirm-available")
+    ->middleware(["auth", "signed"]);
 
 // Route::post('/profile', [ResourceController::class, 'checkout'])
 //     ->name('update_profile');
 
+Route::get("/profile/show/{resource}", [
+    ResourceController::class,
+    "show",
+])->name("show_profile");
 
-Route::get('/profile/show/{resource}', [ResourceController::class, 'show'])
-    ->name('show_profile');
+Route::get("/dashboard", DashboardController::class)
+    ->name("dashboard")
+    ->middleware(["auth"]);
 
-Route::get('/dashboard', DashboardController::class)->name('dashboard')->middleware(['auth']);
-
-Route::get('/search', SearchController::class)->name('search');
-Route::get('/tags', TagController::class)->name('tags');
-Route::get('/countries', CountryController::class)->name('countries');
-Route::get('/engagement/{hirerResource}/review', [ReviewController::class, 'create'])->name('show_review');
-Route::post('/engagement/{hirerResource}/review', [ReviewController::class, 'store'])->name('store_review');
-Route::post('/resource/hire', RazorpayController::class)->name('hire')->middleware('auth');
-Route::post('/resource/hire/success', HireSuccessController::class)->name('hire.success')->middleware('auth');
-require __DIR__ . '/auth.php';
+Route::get("/search", SearchController::class)->name("search");
+Route::get("/tags", TagController::class)->name("tags");
+Route::get("/countries", CountryController::class)->name("countries");
+Route::get("/engagement/{hirerResource}/review", [
+    ReviewController::class,
+    "create",
+])->name("show_review");
+Route::post("/engagement/{hirerResource}/review", [
+    ReviewController::class,
+    "store",
+])->name("store_review");
+Route::post("/resource/hire", RazorpayController::class)
+    ->name("hire")
+    ->middleware("auth");
+Route::post("/resource/hire/success", HireSuccessController::class)
+    ->name("hire.success")
+    ->middleware("auth");
+require __DIR__ . "/auth.php";
