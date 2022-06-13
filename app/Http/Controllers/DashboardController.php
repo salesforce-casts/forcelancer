@@ -55,7 +55,6 @@ class DashboardController extends Controller
                 ->orderBy("created_at", "DESC")
                 ->get();
         }
-
         $events = Event::where("user_id", Auth::id())
             ->orderBy("created_at", "DESC")
             ->get();

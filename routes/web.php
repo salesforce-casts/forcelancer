@@ -73,10 +73,7 @@ Route::get("/available/{resource}", function (Resource $resource) {
     Mail::to("teja@salesforcecasts.com")->send(
         new ConfirmAvailabilityNotification($resource)
     );
-    return view("dashboard")->with(
-        "status",
-        "Notified about your availability"
-    );
+    return redirect()->route("dashboard");
 })
     ->name("confirm-available")
     ->middleware(["auth", "signed"]);
