@@ -42,19 +42,13 @@ class SearchResourceController extends Controller
             $resourceDetails->where('country', $request->input('countryName'));
         }
 
-        if($request->has('minPrice') && $request->minPrice > 0 && $priceFilterOnColumn) {
-            // $resourceDetails->where($priceFilterOnColumn, ">=", $request->input('minPrice'));
+        if(($request->has('minPrice') && $request->has('maxPrice')) && ($request->minPrice > 0 && $request->maxPrice > 0) && $priceFilterOnColumn) {
 
             $resourceDetails->whereBetween($priceFilterOnColumn, [$request->input('minPrice'), $request->input('maxPrice')]);
         }
 
-        // if($request->filled('maxPrice') && $priceFilterOnColumn) {
-        //     $resourceDetails->where($priceFilterOnColumn, "=<", $request->input('maxPrice'));
-        // }
-
-        // $resourceDetails->tosql()->dd();
         $resourceDetails = $resourceDetails->orderBy('id', 'desc')->paginate(15)->withQueryString();
-        // dd($resourceDetails);
+        
         return view('searchResource.index', ['countries' => $countries, 'resourceDetails' => $resourceDetails]);
     }
 }
