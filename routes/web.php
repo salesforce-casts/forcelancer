@@ -110,6 +110,5 @@ Route::post("/resource/hire/success", HireSuccessController::class)
     ->middleware("auth");
 
 Route::get("/search-resource", [SearchResourceController::class, 'index'])->name("search_resource");
-// Route::post("/search-resource", [SearchResourceController::class, 'filter'])->name("filter_resource");
 
 require __DIR__ . "/auth.php";
