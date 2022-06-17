@@ -1,22 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\ResourceController;
-use App\Http\Controllers\PortfolioController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\RazorpayController;
-use App\Http\Controllers\HireSuccessController;
-use App\Http\Controllers\TagController;
-use App\Http\Controllers\CountryController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\DashboardController;
-use App\Mail\AvailableForHireNotification;
-use App\Mail\ConfirmAvailabilityNotification;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Resource;
 
 use Illuminate\Http\Request;
-use App\Models\Resource;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\SearchController;
+use App\Mail\AvailableForHireNotification;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\RazorpayController;
+use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PortfolioController;
+
+use App\Mail\ConfirmAvailabilityNotification;
+use App\Http\Controllers\HireSuccessController;
+use App\Http\Controllers\SearchResourceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,4 +108,8 @@ Route::post("/resource/hire", RazorpayController::class)
 Route::post("/resource/hire/success", HireSuccessController::class)
     ->name("hire.success")
     ->middleware("auth");
+
+Route::get("/search-resource", [SearchResourceController::class, 'index'])->name("search_resource");
+// Route::post("/search-resource", [SearchResourceController::class, 'filter'])->name("filter_resource");
+
 require __DIR__ . "/auth.php";

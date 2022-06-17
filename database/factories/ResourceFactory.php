@@ -35,9 +35,9 @@ class ResourceFactory extends Factory
             'describe' => $this->faker->text(),
             'country' => $this->faker->country(),
             'skills' => implode(",", $this->faker->randomElements(['Salesforce', 'Sales Cloud', 'Apex', 'Integration', 'LWC', 'Aura', 'JavaScript'], 3)),
-            'hourly_rate' => $this->faker->numberBetween(5,20),
-            'weekly_rate' => $this->faker->numberBetween(5,20),
-            'monthly_rate' => $this->faker->numberBetween(5,20),
+            'hourly_rate' => $this->faker->numberBetween(500, 5000),
+            'weekly_rate' => $this->faker->numberBetween(1000,10000),
+            'monthly_rate' => $this->faker->numberBetween(5000,10000),
             // 'created_by' =>$this->faker->randomElement(User::all())['id']
         ];
     }
