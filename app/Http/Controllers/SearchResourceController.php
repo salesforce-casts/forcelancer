@@ -38,8 +38,8 @@ class SearchResourceController extends Controller
                 });
         }
 
-        if($request->filled('countryName') && $request->countryName !== 'null') {
-            $resourceDetails->where('country', $request->input('countryName'));
+        if($request->filled('country') && $request->country !== 'null') {
+            $resourceDetails->where('country_id', $request->input('country'));
         }
 
         if(($request->has('minPrice') && $request->has('maxPrice')) && ($request->minPrice > 0 && $request->maxPrice > 0) && $priceFilterOnColumn) {
@@ -47,6 +47,7 @@ class SearchResourceController extends Controller
             $resourceDetails->whereBetween($priceFilterOnColumn, [$request->input('minPrice'), $request->input('maxPrice')]);
         }
 
+        // $resourceDetails = $resourceDetails->orderBy('id', 'desc')->tosql()->dd();
         $resourceDetails = $resourceDetails->orderBy('id', 'desc')->paginate(15)->withQueryString();
         
         return view('searchResource.index', ['countries' => $countries, 'resourceDetails' => $resourceDetails]);

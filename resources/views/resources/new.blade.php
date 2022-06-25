@@ -49,8 +49,8 @@
                         <div class="mt-4">
                             <x-label for="Country" :value="__('Location')" />
 
-                            <x-picklist id="country" class="block mt-1 w-full" name="country"
-                                        :selected="old('country',  $resourceDetails['country']) ?? '' " :value="$countries" required autofocus />
+                            <x-picklist id="country" class="block mt-1 w-full" name="country_id"
+                                        :selected="old('country_id',  $resourceDetails['country_id']) ?? '' " :value="$countries" required autofocus />
                         </div>
                         <div class="mt-4">
                             <x-label for="Skills" :value="__('Skills')" />

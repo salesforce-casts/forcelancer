@@ -107,10 +107,10 @@
                             Country
                         </label>
                         <div class="relative">
-                            <select name="countryName" class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-state">
+                            <select name="country" class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey" id="grid-state">
                                 <option value="null" >Select Country</option>
                                 @foreach ($countries as $key => $country )
-                                    <option value="{{ $country }}" {{$country == request()->countryName  ? 'selected' : ''}}>
+                                    <option value="{{ $key }}" {{$key == request()->country  ? 'selected' : ''}}>
                                         {{$country}}
                                     </option>
                                 @endforeach
@@ -229,7 +229,7 @@
                                 Name :- <b>{{ $resourceDetail->user->name }}</b>
                                 </br></br>
                                 
-                                Country :- {{ $resourceDetail->country }} 
+                                Country :- {{ $resourceDetail->country->name }} 
                                 </br></br>
                                 Hourly :- {{ $resourceDetail->hourly_rate }} 
                                 </br></br>
