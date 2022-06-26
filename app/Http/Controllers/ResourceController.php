@@ -123,14 +123,14 @@ class ResourceController extends Controller
     public function show(Resource $resource)
     {
         $portfolios = Portfolio::where("resource_id", $resource->id)->get();
-        $hirerResources = HirerResource::where(
-            "resource_id",
-            $resource->id
-        )->pluck("id");
-        $reviews = Review::whereIn("hirer_resource_id", $hirerResources)->get();
+
+        $overAllRating = Review::getResourceOverallRating($resource->id);
+        
+        $reviews = Review::With('user')->where('resource_id', $resource->id)->get();
+        
         return view(
             "resources.show",
-            compact("resource", "portfolios", "reviews")
+            compact("resource", "portfolios", "reviews", "overAllRating")
         );
     }
 

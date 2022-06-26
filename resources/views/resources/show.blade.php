@@ -61,7 +61,7 @@
                     <div>
                         <x-label for="country" :value="__('Country')" />
 
-                        {{ $resource->country }}
+                        {{ $resource->country->name }}
                     </div>
 
                     <div>
@@ -211,6 +211,161 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8  cs-dahsboard-main">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <div>
+                    <article class="md:gap-8 md:grid md:grid-cols-3">
+                        <div>
+                            <div class="flex items-center mb-6 space-x-4">
+                                {{--  <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">  --}}
+                                <div class="m-1 mr-2 w-12 h-12 relative flex justify-center items-center rounded-full bg-red-500 text-xl text-white uppercase">
+                                    {{$resource->user->name[0].$resource->user->name[strpos($resource->user->name, " ")+1]}}
+                                </div>
+                                <div class="space-y-1 font-medium dark:text-white">
+                                    <p>{{ $resource->user->name }}</p>
+                                    <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-0">
+                                        {{ $resource->user->email }}
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="space-y-3 text-sm text-gray-500 dark:text-gray-400">
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1.5"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                      {{ $resource->country->name }}
+                                </li>
+                                <li class="flex items-center">
+                                    <svg class="w-4 h-4 mr-1.5"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <circle cx="12" cy="12" r="9" />  <polyline points="12 7 12 12 15 15" /></svg>
+                                    {{ $resource->timezone ? $resource->timezone : 'Flexible time zone' }}
+                                </li>   
+                            </ul>
+                            <div class="mt-2">
+                                <div class="flex items-center my-1 space-x-4">
+                                    <div>
+                                        Hourly Rate :- 
+                                    </div>
+                                    <div class="space-y-1 font-medium dark:text-white">
+                                        {{ $resource->hourly_rate }}
+                                    </div>
+                                </div>
+                                <div class="flex items-center my-1 space-x-4">
+                                    <div>
+                                        Weekly Rate :- 
+                                    </div>
+                                    <div class="space-y-1 font-medium dark:text-white">
+                                        {{ $resource->weekly_rate }}
+                                    </div>
+                                </div>
+                                <div class="flex items-center my-1 space-x-4">
+                                    <div>
+                                        Monthly Rate :- 
+                                    </div>
+                                    <div class="space-y-1 font-medium dark:text-white">
+                                        {{ $resource->monthly_rate }}
+                                    </div>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-span-2 mt-6 md:mt-0">
+                            <div class="flex items-start mb-5">
+                                <div class="pr-4">
+                                    <h4 class="text-xl font-bold text-gray-900 dark:text-white">
+                                        Skills :- {{ $resource->skills }}
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="flex items-start mb-5">
+                                <div class="pr-4">
+                                    <p class="font-light text-gray-500 dark:text-gray-400">
+                                        {{ $resource->describe }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex items-center mt-3 space-x-5">
+                                <div class="pr-4">
+                                    <h4 class="text-xl font-bold text-gray-900 dark:text-white">
+                                        Total Hours Invoiced :- {{ $resource->total_hours_invoiced }}
+                                    </h4>
+                                </div>
+                                <div class="pr-4">
+                                    <h4 class="text-xl font-bold text-gray-900 dark:text-white">
+                                        Total Earnings :- {{ $resource->total_earnings }}
+                                    </h4>
+                                </div>
+                            </div>
+                            <aside class="flex items-center mt-3 space-x-5 justify-end">
+                                <div class="cs-hire-me inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-500">
+                                    <form @submit.prevent="checkAvailability">
+                                        <x-button on>Available ?</x-button>
+                                    </form>
+                                </div>
+                                <div class="cs-hire-me inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-500 group">
+                                    <x-button @click="show" class="ml-3">Hire</x-button>
+                                </div>
+                            </aside>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8  cs-dahsboard-main">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <div>
+                    <div class="flex items-center">
+                        <h1 class="text-2xl">Reviews</h1>
+                        @for ($i = 0; $i < 5 ; $i++)
+                            <svg class="w-5 h-5 {{ (floor($overAllRating->avg_rating) > $i)? 'text-yellow-400' : 'text-gray-300 dark:text-gray-500' }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        @endfor
+                        <p class="ml-2 text-sm font-medium text-gray-900 dark:text-white">{{ $overAllRating->avg_rating }} out of 5</p>
+                    </div>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $overAllRating->total_review }} global ratings</p>
+                </div>
+                @forelse ($reviews as $review)
+                    <div class="my-4 border-b border-solid border-red-600">                   
+                        <article>
+                            <div class="flex items-center mb-4 space-x-4">
+                                {{--  <img class="w-10 h-10 rounded-full" src="https://gravatar.com/avatar/338a1860eccd05d636fe661da207805f?s=400&d=robohash&r=x" alt="">  --}}
+                                <div class="m-1 mr-2 w-12 h-12 relative flex justify-center items-center rounded-full bg-red-500 text-xl text-white uppercase">
+                                    {{$review->user->name[0].$review->user->name[strpos($review->user->name, " ")+1]}}
+                                </div>
+
+                                <div class="space-y-1 font-medium dark:text-white">
+                                    <p>{{ $review->user->name }} 
+                                        <time datetime="2014-08-16 19:00" class="block text-sm text-gray-500 dark:text-gray-400">.Joined on {{ $review->user->created_at->format('F Y') }}</time>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center mb-1">
+                                @for ($i = 0; $i < 5 ; $i++)
+                                    <svg class="w-5 h-5 {{ ($review->rating > $i)? 'text-yellow-400' : 'text-gray-300 dark:text-gray-500' }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                @endfor
+                                
+                                <h3 class="ml-2 text-sm font-semibold text-gray-900 dark:text-white">
+                                    {{ $review->title }}
+                                </h3>
+                            </div>
+                            <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
+                                <p>Reviewed on <time datetime="2017-03-03 19:00">{{ $review->user->created_at->format('d F Y') }}</time></p>
+                            </footer>
+                            <p class="mb-2 font-light text-gray-500 dark:text-gray-400">
+                                {{ $review->review }}
+                            </p>
+                        </article>
+                    </div>
+                @empty
+                    <h1>No review yet!!!</h1>
+                @endforelse
             </div>
         </div>
     </div>
