@@ -21,7 +21,6 @@ class CreateResourcesTable extends Migration
             // $table->string('title');
 
             // TODO: Remove this and use the relationship field
-            $table->string('email')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');;
 
             $table->text('describe');

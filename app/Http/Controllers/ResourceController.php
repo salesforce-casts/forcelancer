@@ -66,7 +66,6 @@ class ResourceController extends Controller
 
         $validated = $request->validate([
             "name" => "required|max:255",
-            "email" => "required|unique:resources,email,".$resourceId."|email:rfc,dns",
             "describe" => "required|min:3|max:1000",
             "country_id" => "required|numeric",
             "skills" => "required|string",
@@ -85,7 +84,6 @@ class ResourceController extends Controller
             $narration = "Updated your profile";
         }
 
-        $resource->email = $request->input("email");
         $resource->describe = $request->input("describe");
         // $resource->country = $request->input("country");
         $resource->country_id = $request->input("country_id");
@@ -125,7 +123,7 @@ class ResourceController extends Controller
         $portfolios = Portfolio::where("resource_id", $resource->id)->get();
 
         $overAllRating = Review::getResourceOverallRating($resource->id);
-        
+
         $reviews = Review::With('user')->where('resource_id', $resource->id)->get();
         
         return view(

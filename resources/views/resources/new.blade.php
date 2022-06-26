@@ -82,7 +82,7 @@
                         </div>
 
                         <x-button class="mt-4">
-                            Create
+                            {{ $resourceDetails['monthly_rate'] ? 'Update' : 'Create' }}
                         </x-button>
 
                     </form>

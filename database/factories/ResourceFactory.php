@@ -31,7 +31,6 @@ class ResourceFactory extends Factory
     public function definition()
     {
         return [
-            'email' => $this->faker->unique()->safeEmail(),
             'describe' => $this->faker->text(),
             'country_id' => rand(1, 20),
             'skills' => implode(",", $this->faker->randomElements(['Salesforce', 'Sales Cloud', 'Apex', 'Integration', 'LWC', 'Aura', 'JavaScript'], 3)),
