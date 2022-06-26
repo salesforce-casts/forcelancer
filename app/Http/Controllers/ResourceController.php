@@ -41,7 +41,7 @@ class ResourceController extends Controller
             "usr" => Auth::user()->name,
             "email" => Auth::user()->email,
             "describe" => ($resource) ? $resource->describe : '',
-            "country" => ($resource) ? $resource->country : '',
+            "country_id" => ($resource) ? $resource->country_id : '',
             "skills" => ($resource) ? $resource->skills : '',
             "hourly_rate" => ($resource) ? $resource->hourly_rate : '',
             "weekly_rate" => ($resource) ? $resource->weekly_rate : '',
@@ -68,7 +68,7 @@ class ResourceController extends Controller
             "name" => "required|max:255",
             "email" => "required|unique:resources,email,".$resourceId."|email:rfc,dns",
             "describe" => "required|min:3|max:1000",
-            "country" => "required|string",
+            "country_id" => "required|numeric",
             "skills" => "required|string",
             "hourly_rate" => "required|numeric|min:1|max:500",
             "weekly_rate" => "required|numeric|min:1|max:500",
@@ -87,7 +87,8 @@ class ResourceController extends Controller
 
         $resource->email = $request->input("email");
         $resource->describe = $request->input("describe");
-        $resource->country = $request->input("country");
+        // $resource->country = $request->input("country");
+        $resource->country_id = $request->input("country_id");
         $resource->skills = $request->input("skills");
         $resource->hourly_rate = $request->input("hourly_rate");
         $resource->weekly_rate = $request->input("weekly_rate");

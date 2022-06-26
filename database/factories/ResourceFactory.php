@@ -33,11 +33,11 @@ class ResourceFactory extends Factory
         return [
             'email' => $this->faker->unique()->safeEmail(),
             'describe' => $this->faker->text(),
-            'country' => $this->faker->country(),
+            'country_id' => rand(1, 20),
             'skills' => implode(",", $this->faker->randomElements(['Salesforce', 'Sales Cloud', 'Apex', 'Integration', 'LWC', 'Aura', 'JavaScript'], 3)),
-            'hourly_rate' => $this->faker->numberBetween(5,20),
-            'weekly_rate' => $this->faker->numberBetween(5,20),
-            'monthly_rate' => $this->faker->numberBetween(5,20),
+            'hourly_rate' => $this->faker->numberBetween(500, 10000),
+            'weekly_rate' => $this->faker->numberBetween(1000,150000),
+            'monthly_rate' => $this->faker->numberBetween(5000,20000),
             // 'created_by' =>$this->faker->randomElement(User::all())['id']
         ];
     }
