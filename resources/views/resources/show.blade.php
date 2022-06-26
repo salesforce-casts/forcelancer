@@ -431,7 +431,8 @@
                         'theme': {
                             'color': '#3399cc'
                         }
-                    }
+                    },
+                    'authCheck' : '{{ Auth::check() }}'
                 };
             },
             methods: {
@@ -445,6 +446,11 @@
                     document.querySelector('.cs-rollover').classList.remove('transform', 'transition', 'ease-in', 'duration-500', 'sm:duration-700');
                 },
                 checkAvailability(event) {
+                    if(!this.authCheck) {
+                        alert('You need to login.');
+                        return;
+                    }
+
                     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                     const resourceInfo = {
                         'resource_id': '{{$resource->id}}'
