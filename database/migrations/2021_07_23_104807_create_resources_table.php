@@ -21,11 +21,11 @@ class CreateResourcesTable extends Migration
             // $table->string('title');
 
             // TODO: Remove this and use the relationship field
-            $table->string('email')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');;
 
             $table->text('describe');
-            $table->string('country');
+            // $table->string('country');
+            $table->foreignId('country_id')->constrained()->onDelete('cascade');
             $table->string('timezone')->nullable();
             $table->integer('total_hours_invoiced')->unsigned()->default(0);
             $table->integer('total_earnings')->unsigned()->default(0);

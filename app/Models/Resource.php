@@ -54,4 +54,9 @@ class Resource extends Model
 
         return Resource::find($this->id)->user->name;
     }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 }

@@ -60,6 +60,8 @@
                         <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Marketplace</a>
 
                         <a href="#" class="font-medium text-gray-500 hover:text-gray-900">Company</a>
+                        
+                        <a href="{{ route('search_resource') }}" class="font-medium text-gray-500 hover:text-gray-900">Search Resource</a>
                     </div>
                     <div class="hidden md:absolute md:flex md:items-center md:justify-end md:inset-y-0 md:right-0">
               <span class="inline-flex rounded-md shadow">
