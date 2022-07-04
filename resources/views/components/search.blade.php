@@ -99,6 +99,7 @@
                     </div>
                     <div class="mt-4">
                         <x-label for="range" :value="__('Price Range')" />
+                        
                         <x-input id="range"
                                  class="block mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                  type="range" name="range" min="1" max="100" step="1" value="15" required autofocus
@@ -111,6 +112,7 @@
                         <select
                             class="block mt-1 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-48"
                             @change="handleSelectedCountry">
+                            <option value="">Select Country</option>
                             <option v-for="(country, index) in countries" :value=index>
                                 @{{country}}
                             </option>
@@ -126,7 +128,8 @@
 
                     <div class="mt-4">
 
-                        <a @click="handleClear">clear</a>
+                        {{--  <a @click="handleClear">clear</a>  --}}
+                        <a href="{{ route('search-resource') }}">clear</a>
                     </div>
 
                 </form>
@@ -151,6 +154,9 @@
 </div>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector('.cs-range').innerHTML = document.getElementById('range').value;
+    });
     var app = Vue.createApp({
         data() {
             return {
