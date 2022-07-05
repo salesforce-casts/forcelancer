@@ -86,7 +86,6 @@ class SearchController extends Controller
                 )
                     ->select(
                         "resources.id",
-                        "resources.name",
                         "resources.describe",
                         "resources.country"
                     )

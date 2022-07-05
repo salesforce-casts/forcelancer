@@ -99,7 +99,7 @@
                     </div>
                     <div class="mt-4">
                         <x-label for="range" :value="__('Price Range')" />
-                        
+
                         <x-input id="range"
                                  class="block mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                  type="range" name="range" min="1" max="100" step="1" value="15" required autofocus
@@ -128,8 +128,8 @@
 
                     <div class="mt-4">
 
-                        {{--  <a @click="handleClear">clear</a>  --}}
-                        <a href="{{ route('search-resource') }}">clear</a>
+                        <a @click="handleClear">clear</a>
+                        {{--                        <a href="{{ route('search-resource') }}">clear</a>--}}
                     </div>
 
                 </form>
@@ -154,9 +154,6 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelector('.cs-range').innerHTML = document.getElementById('range').value;
-    });
     var app = Vue.createApp({
         data() {
             return {
@@ -174,9 +171,11 @@
         created() {
             this.handleInit();
         },
+        mounted() {
+            document.querySelector('.cs-range').innerHTML = document.querySelector('#range').value;
+        },
         methods: {
             handleInit() {
-
                 Promise.all([
                     fetch(" {{ route('search') }} "),
                     fetch(" {{ route('tags') }} "),
@@ -220,6 +219,12 @@
             handleClear() {
                 this.search = '';
                 this.handleInit();
+                this.selectedTags = [];
+
+                let hoveredTags = document.querySelectorAll('.cs-pills.border-blue-800');
+                for (let item of hoveredTags) {
+                    item.classList.toggle('border-blue-800');
+                }
             },
             handleTagsCollection(event) {
                 event.target.classList.toggle('border-blue-800');
