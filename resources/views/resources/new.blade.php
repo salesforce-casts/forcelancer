@@ -22,7 +22,7 @@
                         </ul>
 
                     @endif
-                    <form method="POST" action="{{ route('store_profile') }}">
+                    <form method="POST" action="{{ route('store_profile') }}" enctype="multipart/form-data">
                     @csrf
                     <!-- Email Address -->
                         <div>
@@ -37,6 +37,16 @@
 
                             <x-input id="email" class="block mt-1 w-full" type="email" name="email"
                                      :value="old('email') ?? $resourceDetails['email']" required autofocus />
+                        </div>
+                        {{--  Profile Image  --}}
+                        <div class="mt-4">
+                            @if ($resourceDetails['profile_pic'])
+                                <img class="w-10 h-10 rounded" src="{{ asset('/storage/profile_pic/'.$resourceDetails['profile_pic']) }}" alt="">
+                            @endif
+                            <x-label for="profile_pic" :value="__('Profile Image')" />
+
+                            <x-input id="profile_pic" class="block mt-1 w-full" type="file" name="profile_pic"
+                                    :value="old('profile_pic')" autofocus />
                         </div>
                         <!-- Email Address -->
                         <div class="mt-4">

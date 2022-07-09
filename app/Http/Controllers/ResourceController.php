@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Country;
+use Stripe\Stripe;
+use App\Models\User;
 use App\Models\Event;
 use App\Models\Hirer;
-use App\Models\HirerResource;
-use App\Models\Portfolio;
-use App\Models\Resource;
 use App\Models\Review;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Stripe\Stripe;
+use App\Models\Country;
+use App\Models\Resource;
+use App\Models\Portfolio;
 use Stripe\PaymentIntent;
+use Illuminate\Http\Request;
+use App\Models\HirerResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ResourceController extends Controller
 {
@@ -46,6 +47,7 @@ class ResourceController extends Controller
             "hourly_rate" => ($resource) ? $resource->hourly_rate : '',
             "weekly_rate" => ($resource) ? $resource->weekly_rate : '',
             "monthly_rate" => ($resource) ? $resource->monthly_rate : '',
+            "profile_pic" => Auth::user()->profile_pic,
         ];
 
         $countries = Country::pluck("name", "id")->all();
@@ -73,6 +75,7 @@ class ResourceController extends Controller
             "hourly_rate" => "required|numeric|min:1|max:500",
             "weekly_rate" => "required|numeric|min:1|max:500",
             "monthly_rate" => "required|numeric|min:1|max:500",
+            "profile_pic" => "nullable|mimes:png,jpg,jpeg|max:2048"
         ]);
 
         $user = User::find(Auth::id());
@@ -92,6 +95,12 @@ class ResourceController extends Controller
         $resource->hourly_rate = $request->input("hourly_rate");
         $resource->weekly_rate = $request->input("weekly_rate");
         $resource->monthly_rate = $request->input("monthly_rate");
+        
+        if($request->hasFile('profile_pic')){
+            $filename = time().'_'.$request->profile_pic->getClientOriginalName().'.'.$request->profile_pic->extension();
+            $request->profile_pic->storeAs('profile_pic',$filename,'public');
+            Auth()->user()->update(['profile_pic'=>$filename]);
+        }
         $resource->user_id = Auth::id();
 
         $saved = $user->owner()->save($resource);
