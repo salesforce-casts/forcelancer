@@ -101,11 +101,18 @@
                     <div class="mt-4">
                         <x-label for="range" :value="__('Price Range')" />
 
-                        <x-input id="range"
+                        {{--  <x-input id="range"
                                  class="block mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 cs-range-slider"
                                  type="range" name="range" min="1" max="100" step="1" value="15" required autofocus
                                  @input="handleRange" />
-                        <div class="cs-range"></div>
+                        <div class="cs-range"></div>  --}}
+                        <div class="range-slider ">
+                            <div>
+                                <span class="rangeValues"></span>
+                            </div>
+                            <input class="w-full" name="min_price" value="1000" min="1000" max="50000" step="500" type="range" >
+                            <input class="w-full" name="max_price" value="50000" min="1000" max="50000" step="500" type="range">
+                        </div>
                     </div>
 
                     <div class="mt-4">
@@ -152,6 +159,33 @@
 </div>
 
 <script>
+    function getVals(){
+        // Get slider values
+        let parent = this.parentNode;
+        let slides = parent.getElementsByTagName("input");
+        let slide1 = parseFloat( slides[0].value );
+        let slide2 = parseFloat( slides[1].value );
+        // Neither slider will clip the other, so make sure we determine which is larger
+        if( slide1 > slide2 ){ let tmp = slide2; slide2 = slide1; slide1 = tmp; }
+        
+        let displayElement = parent.getElementsByClassName("rangeValues")[0];
+        displayElement.innerHTML = "$" + slide1 + " - $" + slide2;
+    }
+      
+    window.onload = function(){
+        // Initialize Sliders
+        let sliderSections = document.getElementsByClassName("range-slider");
+        for( let x = 0; x < sliderSections.length; x++ ){
+            let sliders = sliderSections[x].getElementsByTagName("input");
+            for( let y = 0; y < sliders.length; y++ ){
+                if( sliders[y].type ==="range" ){
+                    sliders[y].oninput = getVals;
+                    // Manually trigger event first time to display values
+                    sliders[y].oninput();
+                }
+            }
+        }
+    }
     var app = Vue.createApp({
         data() {
             return {
@@ -170,7 +204,7 @@
             this.handleInit();
         },
         mounted() {
-            document.querySelector('.cs-range').innerHTML = document.querySelector('#range').value;
+            {{--  document.querySelector('.cs-range').innerHTML = document.querySelector('#range').value;  --}}
         },
         methods: {
             handleInit() {

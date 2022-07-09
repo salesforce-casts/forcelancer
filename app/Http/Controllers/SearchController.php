@@ -78,6 +78,8 @@ class SearchController extends Controller
                     ->whereIn("name", $tags)
                     ->get();
 
+                //sql error is here when we are selecting tags then coming in this condition and
+                // there is no resource_id on tags table
                 $resources_from_tags = Resource::leftJoin(
                     "tags",
                     "tags.resource_id",
