@@ -66,7 +66,7 @@ class ResourceController extends Controller
 
         $validated = $request->validate([
             "name" => "required|max:255",
-            "email" => "required|unique:resources,email,".$resourceId."|email:rfc,dns",
+            "email" => "required|unique:users,email,".Auth::id()."|email:rfc,dns",
             "describe" => "required|min:3|max:1000",
             "country" => "required|string",
             "skills" => "required|string",
@@ -85,7 +85,7 @@ class ResourceController extends Controller
             $narration = "Updated your profile";
         }
 
-        $resource->email = $request->input("email");
+        $user->email = $request->email;
         $resource->describe = $request->input("describe");
         $resource->country = $request->input("country");
         $resource->skills = $request->input("skills");
@@ -97,6 +97,7 @@ class ResourceController extends Controller
         $saved = $user->owner()->save($resource);
 
         if ($saved) {
+            $user->save();
             $event = new Event([
                 "narration" => $narration,
             ]);
@@ -127,6 +128,7 @@ class ResourceController extends Controller
             $resource->id
         )->pluck("id");
         $reviews = Review::whereIn("hirer_resource_id", $hirerResources)->get();
+        $resource->load('user');
         return view(
             "resources.show",
             compact("resource", "portfolios", "reviews")

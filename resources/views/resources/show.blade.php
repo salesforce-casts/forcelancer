@@ -54,7 +54,7 @@
                     <div>
                         <x-label for="email" :value="__('Email')" />
 
-                        {{ $resource->email }}
+                        {{ $resource->user->email }}
 
 
                     </div>
@@ -235,7 +235,7 @@
                         'callback_url': "{{ route('hire.success') }}",
                         'prefill': {
                             'name': "{{ $resource->name }}",
-                            'email': "{{ $resource->email }}",
+                            'email': "{{ $resource->user->email }}",
                             'contact': '7032650325'
                         },
                         'notes': {
