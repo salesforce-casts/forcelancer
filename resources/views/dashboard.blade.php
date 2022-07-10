@@ -29,12 +29,15 @@
                                 </a>
                             </div>
                         @endif
-                        <div class="mt-4">
-                            <a href="{{ route('portfolio_list') }}" class="text-sm text-gray-700 underline">
 
-                                {{ __('Prepare your portfolio') }}
-                            </a>
-                        </div>
+                        @resource
+                            <div class="mt-4">
+                                <a href="{{ route('portfolio_list') }}" class="text-sm text-gray-700 underline">
+
+                                    {{ __('Prepare your portfolio') }}
+                                </a>
+                            </div>
+                        @endresource
                         <div class="mt-4">
                             {{--                            {{ isset($hirerResources) ? count($hirerResources) > 1 : '' }}--}}
                             {{--                            <x-timeline :hirerResources="$hirerResources"></x-timeline>--}}
