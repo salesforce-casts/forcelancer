@@ -215,6 +215,87 @@
         </div>
     </div>
 
+    <div class="px-10 pb-10 ">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Portfolio </h2>
+
+        <div class="grid grid-cols-3 gap-3">
+            @forelse ($portfolios as $portfolio)
+                <div class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+                    <div class="p-5">
+                        <a href="#">
+                            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                {{ $portfolio->title }}
+                            </h5>
+                        </a>
+                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                            {{ $portfolio->description }}
+                        </p>
+                        <a href="{{ $portfolio->video_url }}" target="_blank" class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            Read more
+                            <svg class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            @empty
+                <h1>No Record</h1>
+            @endforelse
+        </div>
+    </div>
+
+    <div class="px-10 pb-10">
+        <div class="mb-3">
+            <div class="flex items-center">
+                <h1 class="text-2xl mr-3">Reviews</h1>
+                @for ($i = 0; $i < 5 ; $i++)
+                    <svg class="w-5 h-5 {{ (floor($overAllRating->avg_rating) > $i)? 'text-yellow-400' : 'text-gray-300 dark:text-gray-500' }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                @endfor
+                <p class="ml-2 text-sm font-medium text-gray-900 dark:text-white">{{ $overAllRating->avg_rating ? $overAllRating->avg_rating : 0 }} out of 5</p>
+            </div>
+            @if($overAllRating->total_review)
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $overAllRating->total_review }} global ratings</p>
+            @endif
+        </div>
+        <div class="max-w-7xl mx-auto cs-dahsboard-main">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                @forelse ($reviews as $review)
+                    <div class="my-4 border-b border-solid border-red-600">                   
+                        <article>
+                            <div class="flex items-center mb-4 space-x-4">
+                                {{--  <img class="w-10 h-10 rounded-full" src="https://gravatar.com/avatar/338a1860eccd05d636fe661da207805f?s=400&d=robohash&r=x" alt="">  --}}
+                                <div class="m-1 mr-2 w-12 h-12 relative flex justify-center items-center rounded-full bg-red-500 text-xl text-white uppercase">
+                                    {{$review->user->name[0].$review->user->name[strpos($review->user->name, " ")+1]}}
+                                </div>
+                                <div class="space-y-1 font-medium dark:text-white">
+                                    <p>{{ $review->user->name }} 
+                                        <time datetime="2014-08-16 19:00" class="block text-sm text-gray-500 dark:text-gray-400">.Joined on {{ $review->user->created_at->format('F Y') }}</time>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center mb-1">
+                                @for ($i = 0; $i < 5 ; $i++)
+                                    <svg class="w-5 h-5 {{ ($review->rating > $i)? 'text-yellow-400' : 'text-gray-300 dark:text-gray-500' }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                @endfor
+                                
+                                <h3 class="ml-2 text-sm font-semibold text-gray-900 dark:text-white">
+                                    {{ $review->title }}
+                                </h3>
+                            </div>
+                            <footer class="mb-5 text-sm text-gray-500 dark:text-gray-400">
+                                <p>Reviewed on <time datetime="2017-03-03 19:00">{{ $review->user->created_at->format('d F Y') }}</time></p>
+                            </footer>
+                            <p class="mb-2 font-light text-gray-500 dark:text-gray-400">
+                                {{ $review->review }}
+                            </p>
+                        </article>
+                    </div>
+                @empty
+                    <h1>No review yet !</h1>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
         var app = Vue.createApp({
