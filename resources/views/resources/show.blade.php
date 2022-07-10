@@ -4,6 +4,15 @@
         {{-- <script src="https://js.stripe.com/v3/"></script> --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </x-slot>
+    {{--  alert  --}}
+    <div class="px-10 pt-5 hidden login-alert">
+        <div class="flex p-4 mb-4 bg-red-100 border-t-4 justify-center border-red-500 dark:bg-red-200" role="alert">
+            <svg class="flex-shrink-0 w-5 h-5 text-red-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+            <div class="ml-3 text-sm font-medium text-red-700">
+              You need to do login for "Avilable to hire" <a href="{{ route('login') }}" class="font-semibold underline hover:text-red-800">Login</a>. Give it a click if you want to do login.
+            </div>
+        </div>
+    </div>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8  cs-dahsboard-main">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -325,7 +334,8 @@
                         'theme': {
                             'color': '#3399cc'
                         }
-                    }
+                    },
+                    authCheck : '{{ Auth::check() }}'
                 };
             },
             methods: {
@@ -339,6 +349,10 @@
                     document.querySelector('.cs-rollover').classList.remove('transform', 'transition', 'ease-in', 'duration-500', 'sm:duration-700');
                 },
                 checkAvailability(event) {
+                    if(!this.authCheck) {
+                        document.querySelector('.login-alert').classList.remove('hidden');
+                        return;
+                    }
                     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                     const resourceInfo = {
                         'resource_id': '{{$resource->id}}'
