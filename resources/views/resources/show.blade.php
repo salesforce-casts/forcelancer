@@ -94,7 +94,14 @@
                     <div>
                         <x-label for="skills" :value="__('Skills')" />
 
-                        {{ $resource->skills }}
+                        <div>
+                            @foreach (explode(",", $resource->skills) as $skill) 
+                                <div class="inline-flex items-center px-2.5 py-0.5 mr-1 mt-2 rounded-full text-xs font-medium bg-blue-100 text-blue-800 border hover:border-blue-800 cs-pills cursor-pointer">
+                                    {{ $skill }}
+                                </div>
+                            @endforeach
+                        </div>
+                        {{--  {{ $resource->skills }}  --}}
                     </div>
 
                     <div>
