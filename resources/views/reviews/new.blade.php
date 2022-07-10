@@ -46,6 +46,7 @@
                         <div>
 
                             <x-input id="engagementId" class="block mt-1 w-full" type="hidden" name="engagementId" value="{{$hirerResource->id}}"/>
+                            <x-input id="resource_id" class="block mt-1 w-full" type="hidden" name="resource_id" value="{{$hirerResource->resource_id}}"/>
                         </div>
                         <div>
                             <x-label for="title" :value="__('Title')" />

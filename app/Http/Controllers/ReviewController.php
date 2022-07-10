@@ -46,6 +46,7 @@ class ReviewController extends Controller
             "title" => "required|max:255",
             "review" => "required|min:3|max:1000",
             "engagementId" => "required|numeric",
+            "resource_id" => "required|numeric",
         ]);
 
         $review = Review::where(
