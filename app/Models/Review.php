@@ -24,8 +24,4 @@ class Review extends Model
         return $this->belongsTo(Resource::class);
     }
 
-    public static function getResourceOverallRating($resource_id)
-    {
-        return self::where('resource_id', $resource_id)->selectRaw('count(id) as total_review, Round(AVG(rating), 2) as avg_rating')->first();
-    }
 }
