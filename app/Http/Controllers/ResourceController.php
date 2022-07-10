@@ -121,15 +121,19 @@ class ResourceController extends Controller
      */
     public function show(Resource $resource)
     {
-        $portfolios = Portfolio::where("resource_id", $resource->id)->get();
-        $hirerResources = HirerResource::where(
-            "resource_id",
-            $resource->id
-        )->pluck("id");
-        $reviews = Review::whereIn("hirer_resource_id", $hirerResources)->get();
+        $portfolios = Portfolio::where("resource_id", $resource->id)->inRandomOrder()->limit(5)->get();
+        // $hirerResources = HirerResource::where(
+        //     "resource_id",
+        //     $resource->id
+        // )->pluck("id");
+        // $reviews = Review::whereIn("hirer_resource_id", $hirerResources)->get();
+        $overAllRating = Review::where('resource_id', $resource->id)->selectRaw('count(id) as total_review, Round(AVG(rating), 2) as avg_rating')->first();
+
+        $reviews = Review::With('user')->where('resource_id', $resource->id)->inRandomOrder()->limit(5)->get();
+        
         return view(
             "resources.show",
-            compact("resource", "portfolios", "reviews")
+            compact("resource", "portfolios", "reviews", "overAllRating")
         );
     }
 

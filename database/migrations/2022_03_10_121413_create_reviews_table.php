@@ -20,6 +20,7 @@ class CreateReviewsTable extends Migration
             $table->unsignedDecimal('rating');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->foreignId('hirer_resource_id')->constrained('hirer_resource')->onDelete('cascade');
+            $table->foreignId('resource_id')->constrained('resources')->onDelete('cascade');
             $table->timestamps();
 
 //            $table->foreign('hirer_resource_id')->references('id')->on('hirer_resource')->onDelete('cascade');

@@ -20,7 +20,8 @@ class ReviewSeeder extends Seeder
         {
             Review::factory(1)->create([
                 'created_by' => $hireResource->created_by,
-                'hirer_resource_id' => $hireResource->id
+                'hirer_resource_id' => $hireResource->id,
+                'resource_id' => $hireResource->resource_id,
             ]);
         }
     }
