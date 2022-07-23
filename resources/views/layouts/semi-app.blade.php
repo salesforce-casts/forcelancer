@@ -9,10 +9,11 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
+    {{--  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">  --}}
+    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Mulish' rel='stylesheet'>
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
     {{--  @yield('css')  --}}
 
@@ -26,17 +27,12 @@
 </head>
 
 <body>
-<div class="font-sans text-gray-900 antialiased">
 
-    <div class="min-h-screen bg-gray-100">
     @include('layouts.navigation')
-
-    <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
-    </div>
-</div>
+        <!-- Page Content -->
+    <main>
+        {{ $slot }}
+    </main>
 </body>
 <x-footer></x-footer>
 </html>
