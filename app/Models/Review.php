@@ -23,4 +23,5 @@ class Review extends Model
     public function hirerResource(){
         return $this->belongsTo(Resource::class);
     }
+
 }
