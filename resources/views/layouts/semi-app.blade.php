@@ -14,6 +14,7 @@
     <link href='https://fonts.googleapis.com/css?family=Mulish' rel='stylesheet'>
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+    <script src="https://unpkg.com/vue@next"></script>
 
     {{--  @yield('css')  --}}
 
