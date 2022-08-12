@@ -7,126 +7,83 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    
+
     @if(session('status'))
         <div class="alert alert-success">
             {{session('status')}}
         </div>
     @endif
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 cs-dahsboard-main">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
+    <div class="bg-white">
+        <div class="flex flex-row flex-wrap items-center bg-white w-10/12 flex  m-auto md:mt-16 pt-6 pb-6">
+            <div class="flex flex-row flex-wrap justify-between items-center">
+                <div class="flex flex-row justify-center items-center">
+                    <a href="#" class="btn mr-4 text-sm py-2 block">You are logged in!! </a>
+                </div>
+            </div>
+        </div>
 
+        <div class="w-10/12 m-auto mb-6 pt-6 pb-6">
+            <h2 class="h5">Timeline</h2>
+        </div>
 
-                    <form method="POST" action="{{ route('create_profile') }}">
-                        @if(!$resourceRegistered)
-                            <div class="mt-4">
-                                <a href="{{ route('create_profile') }}" class="text-sm text-gray-700 underline">
-
+        <div class=" w-10/12 m-auto flex flex-row flex-wrap md:w-full md:block">
+            <div class="flex card w-7/12 md:block md:w-full shadow-2xl mr-2">
+                <div
+                    class="w-full relative flex flex-col flex-wrap border-gray-300 flex-none ml-30 md:shadow-xl animated faster">
+                    <div class="w-full  col-span-1 ">
+                        <x-timeline :events="$events"></x-timeline>
+                    </div>
+                </div>
+            </div>
+            <div class="w-4/12 ml-6 md:w-full">
+                <div
+                    class=" btn card relative flex flex-col flex-wrap border-gray-300 flex-none md:shadow-xl animated faster">
+                    <div class=" w-full p-4">
+                        <p class="text-left" style="color:white;">Welcome Back,</p>
+                        <h2 class="text-left" style="color:white;">
+                            {{ auth()->user()->name }}
+                        </h2>
+                    </div>
+                    @if(!$resourceRegistered)
+                        <div class="card p-4 m-2">
+                            <div class="flex justify-between mb-1">
+                                <a href="{{ route('create_profile') }}" class="text-base font-medium text-blue-700 dark:text-white">
                                     {{ __('Register Your Profile') }}
                                 </a>
+                                <span class="text-sm font-medium text-blue-700 dark:text-white">45%</span>
                             </div>
-                        @endif
-                        <div class="mt-4">
-                            <a href="{{ route('portfolio_list') }}" class="text-sm text-gray-700 underline">
-
-                                {{ __('Prepare your portfolio') }}
-                            </a>
+                            <div class="w-full bg-gray-200 h-1 mb-6">
+                                <div class="bg-blue-600 h-1" style="width: 50%"></div>
+                            </div>
                         </div>
-                        <div class="mt-4">
-                            {{--                            {{ isset($hirerResources) ? count($hirerResources) > 1 : '' }}--}}
-                            {{--                            <x-timeline :hirerResources="$hirerResources"></x-timeline>--}}
-                            <x-engagements :hirerResources="$hirerResources" :active="true"></x-engagements>
-                            <x-engagements :hirerResources="$oldHirerResources" :active="false"></x-engagements>
-
-                            <x-timeline :events="$events"></x-timeline>
-                        </div>
-                    </form>
-                    {{--                    <div class="cs-hire-me">--}}
-                    {{--                        <x-button @click="show">Hire</x-button>--}}
-                    {{--                    </div>--}}
-                    {{-- <button>Hey</button> --}}
-
+                    @endif
+                    
                 </div>
+                <div class="card p-2 mt-2" style="border-radius:0px!important;">
+                    <div class="card flex justify-between mb-1 bg-gray-100 p-2">
+                        <a href="{{ route('portfolio_list') }}" class="text-base font-medium dark:text-white">
+                            {{ __('Prepare your portfolio') }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="flex w-10/12 m-auto md:w-full md:block">
+            <div class="w-5/12 md:w-full md:block">
+                <div class=" w-6/12 bg-white-100 pt-6 pb-6 md:w-full md:block">
+                    <h2 class="h5">Ongoing Projects</h2>
+                </div>
+                <x-engagements :hirerResources="$hirerResources" :active="true"></x-engagements>
+            </div>
 
-                <!-- This example requires Tailwind CSS v2.0+ -->
-                {{--                <div class="fixed inset-0 overflow-hidden cs-hide invisible" aria-labelledby="slide-over-title"--}}
-                {{--                    role="dialog" aria-modal="true">--}}
-                {{--                    <div class="absolute inset-0 overflow-hidden">--}}
-                {{--                        <!-- Background overlay, show/hide based on slide-over state. -->--}}
-                {{--                        <div class="absolute inset-0" aria-hidden="true"></div>--}}
-
-                {{--                        <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex">--}}
-                {{--                            <!----}}
-                {{--                                Slide-over panel, show/hide based on slide-over state.--}}
-
-                {{--                                Entering: "transform transition ease-in-out duration-500 sm:duration-700"--}}
-                {{--                                    From: "translate-x-full"--}}
-                {{--                                    To: "translate-x-0"--}}
-                {{--                                Leaving: "transform transition ease-in-out duration-500 sm:duration-700"--}}
-                {{--                                    From: "translate-x-0"--}}
-                {{--                                    To: "translate-x-full"--}}
-                {{--                            -->--}}
-                {{--                            <div class="w-screen max-w-md">--}}
-                {{--                                <div class="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">--}}
-                {{--                                    <div class="py-6 px-4 bg-indigo-700 sm:px-6">--}}
-                {{--                                        <div class="flex items-center justify-between">--}}
-                {{--                                            <h2 class="text-lg font-medium text-white" id="slide-over-title">--}}
-                {{--                                                Panel title--}}
-                {{--                                            </h2>--}}
-                {{--                                            <div class="ml-3 h-7 flex items-center">--}}
-                {{--                                                <button--}}
-                {{--                                                    class="bg-indigo-700 rounded-md text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"--}}
-                {{--                                                    @click="hide">--}}
-                {{--                                                    <span class="sr-only">Close panel</span>--}}
-                {{--                                                    <!-- Heroicon name: outline/x -->--}}
-                {{--                                                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"--}}
-                {{--                                                        viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">--}}
-                {{--                                                        <path stroke-linecap="round" stroke-linejoin="round"--}}
-                {{--                                                            stroke-width="2" d="M6 18L18 6M6 6l12 12" />--}}
-                {{--                                                    </svg>--}}
-                {{--                                                </button>--}}
-                {{--                                            </div>--}}
-                {{--                                        </div>--}}
-                {{--                                        <div class="mt-1">--}}
-                {{--                                            <p class="text-sm text-indigo-300">--}}
-                {{--                                                Lorem, ipsum dolor sit amet consectetur adipisicing elit aliquam ad hic--}}
-                {{--                                                recusandae soluta.--}}
-                {{--                                            </p>--}}
-                {{--                                        </div>--}}
-                {{--                                    </div>--}}
-                {{--                                    <div class="relative flex-1 py-6 px-4 sm:px-6">--}}
-                {{--                                        <!-- Replace with your content -->--}}
-                {{--                                        <div class="absolute inset-0 py-6 px-4 sm:px-6">--}}
-                {{--                                            <div class="h-full border-2 border-dashed border-gray-200"--}}
-                {{--                                                aria-hidden="true"></div>--}}
-                {{--                                        </div>--}}
-                {{--                                        <!-- /End replace -->--}}
-                {{--                                    </div>--}}
-                {{--                                </div>--}}
-                {{--                            </div>--}}
-                {{--                        </div>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
-
+            <div class="w-5/12 ml-auto md:w-full md:block">
+                <div class=" w-6/12 bg-white-100 pt-6 pb-6 md:w-full md:block">
+                    <h2 class="h5">Completed Projects</h2>
+                </div>
+                <x-engagements :hirerResources="$oldHirerResources" :active="false"></x-engagements>
             </div>
         </div>
     </div>
 
-    <script>
-        // var app = Vue.createApp({
-        //     methods: {
-        //         show(event) {
-        //             document.querySelector('.cs-hide').classList.remove('invisible');
-        //         },
-        //
-        //         hide(event){
-        //             document.querySelector('.cs-hide').classList.add('invisible');
-        //         }
-        //     }
-        // });
-        // const vm  = app.mount('.cs-dahsboard-main');
-    </script>
 </x-app-layout>
